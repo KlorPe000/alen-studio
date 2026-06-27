@@ -239,12 +239,12 @@ if (canvas) {
       zones.Glass.push(mesh);
       return;
     }
+    zones[zoneKey].push(mesh);
+    // Kuzov — спільна x-ray оболонка (ZONE_LOOK.Body), зона лишається для outline
     if (/kuzov/i.test(mn)) {
       mesh.material = zoneMaterials.Body;
-      zones.Body.push(mesh);
       return;
     }
-    zones[zoneKey].push(mesh);
     applyLook(mesh.material, look);
   }
 
