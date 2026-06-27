@@ -660,9 +660,9 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
     will-change: opacity;
   }
 
-  /* ── pricing section: stacked coverage tiers ── */
+  /* ── pricing section: framed tappable cards ── */
   .pkg-panel{
-    display:flex; flex-direction:column; gap:0;
+    display:flex; flex-direction:column; gap:.75rem;
     background:none; border:none; border-radius:0; overflow:visible;
   }
 
@@ -679,20 +679,19 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
     align-items:start;
     column-gap:1rem;
     row-gap:0;
-    padding:1.45rem 0 1.55rem !important;
-    border:none !important;
-    border-left:none !important;
-    border-top:1px solid var(--line) !important;
-    border-radius:0 !important;
-    background:none !important;
+    padding:1.3rem 1.15rem 1.45rem !important;
+    border:1px solid rgba(255,255,255,.09) !important;
+    border-radius:14px !important;
+    background:rgba(255,255,255,.035) !important;
     box-shadow:none !important;
     transform:none !important;
-    cursor:default !important;
+    cursor:pointer !important;
     min-height:unset !important;
-    transition:none !important;
+    transition:border-color .22s ease, background .15s ease !important;
   }
   .pkg::before{ display:none !important; }
-  .pkg:not(.feature):hover{ background:none !important; }
+  /* tap feedback */
+  .pkg:active{ background:rgba(255,255,255,.07) !important; border-color:rgba(255,255,255,.2) !important; }
 
   .pkg-lvl{ grid-area:lvl; margin-bottom:.3rem; font-size:.56rem; }
   .pkg .name{
@@ -712,7 +711,7 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
   .pkg-cov{ grid-area:cov; margin-top:1.05rem; }
   .pkg-cov-bar::after{ background:repeating-linear-gradient(90deg,
       transparent 0, transparent calc(100%/7 - 2px),
-      var(--bg) calc(100%/7 - 2px), var(--bg) calc(100%/7)); }
+      rgba(255,255,255,.035) calc(100%/7 - 2px), rgba(255,255,255,.035) calc(100%/7)); }
   .pkg-toggle{
     grid-area:tog; margin-top:1.15rem; padding:.7rem 0 0;
     font-size:.6rem;
@@ -720,12 +719,18 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
   .pkg-accord{ grid-area:acc; }
   .pkg-book{ font-size:.76rem; }
 
-  /* Premium: colour-only highlight, no box */
-  .pkg.feature{ border-top-color:rgba(212,240,0,.28) !important; }
+  /* Premium: accent tinted frame */
+  .pkg.feature{
+    border:1px solid rgba(212,240,0,.3) !important;
+    background:rgba(212,240,0,.04) !important;
+  }
+  .pkg.feature:active{ background:rgba(212,240,0,.08) !important; border-color:rgba(212,240,0,.5) !important; }
   .pkg.feature .pkg-lvl{ color:var(--accent); }
   .pkg.feature .name{ color:var(--accent); }
   .pkg.feature .price .num{ color:var(--accent); }
   .pkg.feature .pkg-toggle{ border-top-color:rgba(212,240,0,.16) !important; }
+  /* selected: border ring instead of inset shadow */
+  .pkg--selected{ border-color:rgba(212,240,0,.6) !important; background:rgba(212,240,0,.07) !important; box-shadow:none !important; }
 
   /* ── hero bottom: refined mobile layout ── */
   .hero-meta{ display:none; }   /* city + description already in footer */
