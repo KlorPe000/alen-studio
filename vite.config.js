@@ -5,6 +5,14 @@ import { defineConfig } from "vite";
 // `public/assets/` (whose filenames are referenced verbatim from inline CSS/JS).
 export default defineConfig({
   base: "/",
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+      },
+    },
+  },
   build: {
     target: "es2020",
     outDir: "dist",

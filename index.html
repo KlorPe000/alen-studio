@@ -1722,27 +1722,23 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
     if(digits.length<10){ msg.textContent="Вкажіть коректний номер телефону."; msg.classList.add("err"); phoneEl.focus(); return; }
     btn.disabled=true; btn.style.opacity=".6"; msg.textContent="Надсилаємо…";
 
-    var TG_TOKEN  = "8416929056:AAFlmSwZXnDedH9k26XqrwwBzUaRIyG_LDg";
-    var TG_CHAT   = "8416929056";
-    var now = new Date().toLocaleString("uk-UA", {timeZone:"Europe/Kiev"});
-    var lines = [
-      "📋 *Нова заявка — Alen Studio*",
-      "──────────────────",
-      "👤 Ім'я: " + nameEl.value.trim(),
-      "📞 Телефон: " + phoneEl.value.trim()
-    ];
-    if(carEl.value.trim()) lines.push("🚗 Марка авто: " + carEl.value.trim());
+    var payload = {
+      name: nameEl.value.trim(),
+      phone: phoneEl.value.trim()
+    };
+    if(carEl.value.trim()) payload.car = carEl.value.trim();
     if(_bookingData){
-      lines.push("📦 Послуга: " + _bookingData.name);
-      if(_bookingData.chips && _bookingData.chips.length) lines.push("🔧 Включає: " + _bookingData.chips.join(", "));
-      lines.push("💰 Вартість: " + _bookingData.price + " грн");
+      payload.booking = {
+        name: _bookingData.name,
+        chips: _bookingData.chips || [],
+        price: _bookingData.price
+      };
     }
-    lines.push("⏰ Час: " + now);
 
-    fetch("https://api.telegram.org/bot" + TG_TOKEN + "/sendMessage", {
+    fetch("/api/booking", {
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({chat_id:TG_CHAT, text:lines.join("\n"), parse_mode:"Markdown"})
+      body:JSON.stringify(payload)
     }).then(function(r){ return r.json(); }).then(function(r){
       btn.disabled=false; btn.style.opacity="1";
       if(r.ok){
@@ -1907,11 +1903,9 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
 <!-- 3D x-ray configurator that drives the price calculator (bundled by Vite) -->
 <script type="module" src="/src/three-configurator.js"></script>
 
-<!-- Telegram visitor notification -->
+<!-- Visitor notification (via server API) -->
 <script>
 (function(){
-  var TOKEN   = "8416929056:AAFlmSwZXnDedH9k26XqrwwBzUaRIyG_LDg";
-  var CHAT_ID = "8416929056";
   var LS_KEY  = "tg_last_notify";
   var COOLDOWN = 10 * 60 * 1000; // 10 минут
 
@@ -1921,21 +1915,14 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
     localStorage.setItem(LS_KEY, String(Date.now()));
   } catch(e) { /* localStorage заблокован — отправляем без проверки */ }
 
-  var now     = new Date().toLocaleString("uk-UA", { timeZone: "Europe/Kiev" });
-  var page    = location.href;
-  var ref     = document.referrer ? "🔗 Реферер: " + document.referrer : "🔗 Прямой заход";
-  var device  = /Mobi|Android/i.test(navigator.userAgent) ? "📱 Телефон" : "🖥 Компьютер";
-
-  var text = "🔔 Новый посетитель на сайте!\n"
-    + "⏰ Время: " + now + "\n"
-    + "📄 Страница: " + page + "\n"
-    + ref + "\n"
-    + "💻 Устройство: " + device;
-
-  fetch("https://api.telegram.org/bot" + TOKEN + "/sendMessage", {
+  fetch("/api/visitor", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+    body: JSON.stringify({
+      page: location.href,
+      referrer: document.referrer || null,
+      device: /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop"
+    })
   }).catch(function(){});
 })();
 </script>
