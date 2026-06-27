@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0d0d0f" />
+<title>Alen Studio — Хімчистка салону авто у Білій Церкві | Професійний детейлінг</title>
+<meta name="description" content="Alen Studio — студія професійного догляду за салоном автомобіля у Білій Церкві. Глибока хімчистка сидінь, стелі, пластику. Повертаємо вашому авто відчуття нового салону." />
+<meta property="og:title" content="Alen Studio — Хімчистка салону авто" />
+<meta property="og:description" content="Професійний догляд за салоном автомобіля. Біла Церква." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://images.unsplash.com" />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Saira+Condensed:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   Alen Studio — Design Tokens
+   ============================================================ */
+:root{
+  /* color */
+  --bg:        #0c0c0e;
+  --bg-2:      #141417;
+  --bg-3:      #1a1a1e;
+  --bg-card:   #16161a;
+  --light:     #ededec;
+  --light-2:   #e3e3e1;
+  --ink:       #0c0c0e;
+
+  --text:      #f4f4f3;
+  --text-2:    #b9b9bd;
+  --muted:     #86868c;
+  --faint:     #5a5a60;
+
+  --accent:    #d4f000;        /* acid lime-yellow */
+  --accent-2:  #b9d400;
+  --accent-ink:#0c0c0e;
+
+  --line:      rgba(255,255,255,.09);
+  --line-2:    rgba(255,255,255,.14);
+  --line-dark: rgba(12,12,14,.12);
+
+  /* type */
+  --f-display: "Saira Condensed", "Oswald", "Arial Narrow", sans-serif;
+  --f-body:    "Manrope", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* metrics */
+  --maxw: 1320px;
+  --pad: clamp(18px, 4vw, 56px);
+  --pad-edge: clamp(16px, 2.4vw, 34px);
+  --radius: 18px;
+  --radius-sm: 12px;
+
+  /* motion */
+  --ease: cubic-bezier(.22,.61,.36,1);
+  --ease-out: cubic-bezier(.16,1,.3,1);
+  --t-fast: .18s;
+  --t: .35s;
+}
+
+/* ============================================================
+   Reset
+   ============================================================ */
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+
+body{
+  font-family:var(--f-body);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  font-weight:400;
+  letter-spacing:-0.005em;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img,svg{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; cursor:pointer; background:none; border:none; }
+input{ font:inherit; }
+ul{ list-style:none; }
+:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+
+::selection{ background:var(--accent); color:var(--accent-ink); }
+
+.wrap{ width:100%; max-width:var(--maxw); margin-inline:auto; padding-inline:var(--pad); }
+
+/* ============================================================
+   Typography helpers
+   ============================================================ */
+.eyebrow{
+  font-family:var(--f-body);
+  font-size:.66rem; font-weight:600;
+  letter-spacing:.24em; text-transform:uppercase;
+  color:var(--accent);
+}
+.eyebrow.dim{ color:var(--muted); }
+.display{
+  font-family:var(--f-display);
+  font-weight:700;
+  text-transform:uppercase;
+  line-height:.92;
+  letter-spacing:.005em;
+}
+h2.sec-title{
+  font-family:var(--f-display); font-weight:600; text-transform:uppercase;
+  font-size:clamp(2rem, 5vw, 3.4rem); line-height:.98; letter-spacing:.01em;
+}
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.btn{
+  --bh: 54px;
+  position:relative; display:inline-flex; align-items:center; gap:.7em;
+  min-height:var(--bh); padding:0 1.6rem;
+  border-radius:100px;
+  font-weight:600; font-size:.86rem; letter-spacing:.06em; text-transform:uppercase;
+  transition:transform var(--t-fast) var(--ease), background var(--t) var(--ease), color var(--t) var(--ease), box-shadow var(--t) var(--ease);
+  will-change:transform;
+}
+.btn .arrow{ transition:transform var(--t) var(--ease); }
+.btn:hover .arrow{ transform:translateX(5px); }
+.btn:active{ transform:scale(.97); }
+
+.btn-accent{ background:var(--accent); color:var(--accent-ink); box-shadow:0 0 0 0 rgba(212,240,0,.5); }
+.btn-accent:hover{ background:#e2ff1c; box-shadow:0 12px 36px -10px rgba(212,240,0,.55); transform:translateY(-2px); }
+
+.btn-ghost{ border:1px solid var(--line-2); color:var(--text); }
+.btn-ghost:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+
+.btn-text{ min-height:auto; padding:0; border-radius:0; }
+.link-cta{
+  display:inline-flex; align-items:center; gap:.85em;
+  font-weight:600; font-size:.8rem; letter-spacing:.16em; text-transform:uppercase; color:var(--accent);
+  padding-bottom:6px; position:relative;
+}
+.link-cta::after{ content:""; position:absolute; left:0; bottom:0; height:1px; width:100%; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform var(--t) var(--ease); }
+.link-cta:hover::after{ transform:scaleX(1); }
+.link-cta svg{ transition:transform var(--t) var(--ease); }
+.link-cta:hover svg{ transform:translateX(6px); }
+
+/* ============================================================
+   Header / Nav
+   ============================================================ */
+.site-header{
+  position:fixed; inset:0 0 auto 0; z-index:100;
+  transition:background var(--t) var(--ease), backdrop-filter var(--t) var(--ease), border-color var(--t) var(--ease);
+  border-bottom:1px solid transparent;
+}
+.site-header.scrolled{
+  background:rgba(12,12,14,.72);
+  backdrop-filter:saturate(160%) blur(16px);
+  -webkit-backdrop-filter:saturate(160%) blur(16px);
+  border-bottom-color:var(--line);
+}
+.site-header .wrap{ max-width:none; padding-inline:var(--pad-edge); }
+.nav{ display:flex; align-items:center; justify-content:space-between; height:78px; }
+.brand{ display:flex; align-items:center; }
+/* show only the logo content area of the untouched assets/alen.jpg (4356x3500) via CSS crop */
+.brand-logo{ display:block; width:140px; height:32px;
+  background:url("assets/alen.jpg") no-repeat -9px -45px; background-size:155px 125px; }
+.nav-links{ display:flex; gap:2.1rem; }
+.nav-links a{
+  font-size:.72rem; font-weight:500; letter-spacing:.15em; text-transform:uppercase; color:var(--text-2);
+  position:relative; padding:6px 0; transition:color var(--t) var(--ease);
+}
+.nav-links a::after{ content:""; position:absolute; left:0; bottom:0; height:1px; width:100%; background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform var(--t) var(--ease); }
+.nav-links a:hover{ color:var(--text); }
+.nav-links a:hover::after{ transform:scaleX(1); }
+.nav-cta{ display:flex; align-items:center; gap:1.2rem; }
+
+.burger{ display:none; width:46px; height:46px; border:1px solid var(--line-2); border-radius:12px; align-items:center; justify-content:center; }
+.burger span{ display:block; width:20px; height:2px; background:var(--text); position:relative; transition:transform var(--t) var(--ease), opacity var(--t) var(--ease); }
+.burger span::before,.burger span::after{ content:""; position:absolute; left:0; width:20px; height:2px; background:var(--text); transition:transform var(--t) var(--ease); }
+.burger span::before{ top:-6px; } .burger span::after{ top:6px; }
+body.menu-open .burger span{ background:transparent; }
+body.menu-open .burger span::before{ transform:translateY(6px) rotate(45deg); }
+body.menu-open .burger span::after{ transform:translateY(-6px) rotate(-45deg); }
+
+/* mobile menu */
+.mobile-menu{
+  position:fixed; inset:78px 0 0 0; z-index:90;
+  background:rgba(12,12,14,.97); backdrop-filter:blur(20px);
+  display:flex; flex-direction:column; gap:.4rem; padding:2rem var(--pad);
+  transform:translateY(-12px); opacity:0; pointer-events:none;
+  transition:opacity var(--t) var(--ease), transform var(--t) var(--ease);
+}
+body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
+.mobile-menu a{ font-family:var(--f-display); text-transform:uppercase; font-weight:500; font-size:1.7rem; padding:.6rem 0; border-bottom:1px solid var(--line); letter-spacing:.04em; }
+.mobile-menu .btn{ margin-top:1.4rem; justify-content:center; }
+
+/* ============================================================
+   Reveal animation utility
+   ============================================================ */
+.reveal{ opacity:0; transform:translateY(26px); transition:opacity .8s var(--ease-out), transform .8s var(--ease-out); }
+.reveal.in{ opacity:1; transform:none; }
+.reveal[data-d="1"]{ transition-delay:.08s; }
+.reveal[data-d="2"]{ transition-delay:.16s; }
+.reveal[data-d="3"]{ transition-delay:.24s; }
+.reveal[data-d="4"]{ transition-delay:.32s; }
+@media (prefers-reduced-motion: reduce){
+  .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
+}
+
+/* image frame with graceful gradient fallback */
+.imgframe{ position:relative; overflow:hidden; background:
+   radial-gradient(120% 120% at 70% 10%, #26262b 0%, #131316 55%, #0c0c0e 100%); }
+.imgframe img{ width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .9s var(--ease); }
+.imgframe img.loaded{ opacity:1; }
+.imgframe::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, transparent 40%, rgba(12,12,14,.35) 100%); pointer-events:none; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+/* hero holds a video that plays through once on first scroll */
+.hero{ position:relative; min-height:100svh; overflow:hidden; }
+.hero-sticky{ position:relative; height:100svh; overflow:hidden; }
+.hero.hero--static .hero-video,
+.hero.hero--static .hero-scrollhint{ display:none; }
+/* full-bleed background image / video */
+.hero-bg{ position:absolute; inset:0; z-index:0; background:radial-gradient(120% 120% at 70% 30%, #232328 0%, #131316 55%, #0b0b0d 100%); }
+.hero-bg img, .hero-bg video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 52%; }
+.hero-bg .hero-fallback{ opacity:0; transition:opacity 1s var(--ease); }
+.hero-bg .hero-fallback.loaded{ opacity:1; }
+.hero-video{ opacity:0; transition:opacity .6s var(--ease); }
+.hero-video.loaded{ opacity:1; }
+/* scroll hint pill */
+.hero-scrollhint{
+  position:absolute; left:50%; bottom:clamp(18px,3vh,34px); transform:translateX(-50%); z-index:4;
+  font-size:.6rem; letter-spacing:.26em; text-transform:uppercase; color:rgba(255,255,255,.55);
+  padding:.5rem .9rem .5rem 2rem; pointer-events:none;
+  transition:opacity .5s var(--ease);
+}
+.hero-scrollhint::before{
+  content:""; position:absolute; left:0; top:50%; width:22px; height:1px; background:var(--accent);
+  transform:translateY(-50%); animation:hintslide 1.8s var(--ease) infinite;
+}
+.hero.scrubbed .hero-scrollhint{ opacity:0; }
+@keyframes hintslide{ 0%,100%{ transform:translateY(-50%) scaleX(.4); opacity:.4; transform-origin:left; } 50%{ transform:translateY(-50%) scaleX(1); opacity:1; transform-origin:left; } }
+.hero-bg::after{ content:""; position:absolute; inset:0; pointer-events:none; background:
+  linear-gradient(90deg, rgba(9,9,11,.92) 0%, rgba(9,9,11,.55) 26%, rgba(9,9,11,.08) 56%, transparent 78%),
+  linear-gradient(180deg, rgba(9,9,11,.58) 0%, transparent 16%, transparent 50%, rgba(9,9,11,.72) 100%); }
+
+.hero-side{
+  position:absolute; left:18px; top:50%; transform:rotate(180deg) translateX(50%); z-index:3;
+  writing-mode:vertical-rl; font-size:.6rem; letter-spacing:.42em; text-transform:uppercase; color:rgba(255,255,255,.4);
+}
+
+.hero-inner{ position:relative; z-index:2; max-width:none; min-height:100svh; display:flex; flex-direction:column;
+  padding-top:clamp(96px,12vh,140px); padding-bottom:clamp(28px,4vh,44px); padding-inline:var(--pad-edge); }
+.hero h1{ font-size:clamp(3.2rem, 10.8vw, 10rem); margin-bottom:auto; transform:scaleX(.82); transform-origin:left top; letter-spacing:-.02em; }
+.hero h1 .ln{ display:block; overflow:hidden; }
+.hero h1 .ln span{ display:block; transform:translateY(105%); }
+.hero.ready h1 .ln span{ transform:none; transition:transform 1s var(--ease-out); }
+.hero.ready h1 .ln:nth-child(2) span{ transition-delay:.12s; }
+
+.hero-bottom{ display:flex; justify-content:space-between; align-items:flex-end; gap:2rem; }
+.hero-sub{ color:var(--text-2); font-size:clamp(.92rem,1.05vw,1.02rem); line-height:1.5; margin-bottom:1.7rem; }
+.hero-meta{ text-align:left; max-width:230px; }
+.hero-meta p{ font-size:.8rem; color:var(--text-2); line-height:1.55; }
+.hero-meta .lab{ color:var(--accent); font-weight:600; }
+.hero-meta .city{ display:flex; align-items:center; gap:.85rem; margin-top:1.3rem; letter-spacing:.03em; font-size:.82rem; color:var(--text-2); }
+.hero-meta .city::after{ content:""; height:1px; width:32px; background:var(--accent); }
+
+/* ── hero: eyebrow, accent line, notched CTA, socials, scroll cues, ruler ── */
+.hero-eyebrow{
+  display:flex; align-items:center; gap:1rem;
+  font-family:var(--f-body); font-size:.7rem; font-weight:600;
+  letter-spacing:.34em; text-transform:uppercase; color:var(--accent);
+  margin-bottom:clamp(1rem,2.4vh,1.7rem);
+}
+.hero-eyebrow::before{ content:""; width:30px; height:1px; background:var(--accent); flex:none; }
+.hero-eyebrow::after{ content:""; height:1px; flex:none; width:clamp(120px,13vw,200px); background:var(--accent); }
+
+.hero h1 .ln.accent{ color:var(--accent); }
+
+.hero-sub{ position:relative; padding-left:1.05rem; }
+.hero-sub::before{ content:""; position:absolute; left:0; top:.2em; bottom:.2em; width:2px; background:var(--accent); }
+
+.hero-cta{
+  --notch:13px;
+  position:relative; display:inline-flex; align-items:center; gap:1.6em;
+  padding:1.4rem 2.2rem; isolation:isolate;
+  font-family:var(--f-body); font-weight:600; font-size:.82rem;
+  letter-spacing:.16em; text-transform:uppercase; color:#fff;
+  background:var(--accent);
+  clip-path:polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch));
+  filter:drop-shadow(0 0 14px rgba(212,240,0,.28));
+  transition:filter var(--t) var(--ease), transform var(--t-fast) var(--ease);
+}
+.hero-cta::before{ content:""; position:absolute; inset:1.5px; z-index:0; background:#0b0b0d; clip-path:inherit; }
+.hero-cta > *{ position:relative; z-index:1; }
+.hero-cta svg{ color:var(--accent); transition:transform var(--t) var(--ease); }
+.hero-cta:hover{ filter:drop-shadow(0 0 22px rgba(212,240,0,.5)); transform:translateY(-2px); }
+.hero-cta:hover svg{ transform:translateX(5px); }
+
+.hero-social, .hero-scrolldown, .hero-cue, .hero-ruler{ display:none; }
+
+@media (min-width:1080px){
+  /* nav CTA arrow reads lime, like the reference */
+  .nav-apply .arrow{ color:var(--accent); }
+  /* hero CTA arrow reads white, like the reference */
+  .hero-cta svg{ color:#fff; }
+
+  /* top-anchored content block; bottom row pinned separately — matches reference rhythm */
+  .hero-inner{ justify-content:flex-start; padding-top:clamp(140px,21vh,210px); padding-bottom:clamp(78px,11vh,116px); }
+  .hero h1{ margin-bottom:clamp(2.6rem,5.2vh,4rem); font-weight:800; transform:scaleX(.90); }
+  .hero-sub{ margin-bottom:clamp(1.9rem,3.4vh,2.7rem); }
+  .hero-bottom{ flex:none; }
+  .hero-meta{ position:absolute; right:var(--pad-edge); bottom:clamp(20px,4.2vh,40px); margin:0; max-width:260px; z-index:4; }
+
+  .hero-social{
+    position:absolute; right:clamp(16px,1.8vw,30px); top:50%; transform:translateY(-50%); z-index:5;
+    display:flex; flex-direction:column; align-items:center; gap:1.4rem;
+  }
+  .hero-social a{ color:rgba(255,255,255,.6); transition:color var(--t) var(--ease), transform var(--t) var(--ease); }
+  .hero-social a:hover{ color:var(--accent); transform:translateY(-2px); }
+  .hero-social svg{ width:17px; height:17px; display:block; }
+
+  .hero-scrolldown{
+    position:absolute; left:var(--pad-edge); bottom:clamp(18px,4vh,38px); z-index:4;
+    display:flex; flex-direction:column; align-items:flex-start; gap:.55rem;
+    font-family:var(--f-body); font-size:.56rem; font-weight:600; letter-spacing:.26em; text-transform:uppercase; color:rgba(255,255,255,.5); line-height:1.5;
+  }
+  .hero-scrolldown svg{ animation:scrollcue 1.8s var(--ease) infinite; }
+  /* bottom-left accent line + lime marker (separate from the top ruler) */
+  .hero-scrolldown::before{ content:""; position:absolute; left:-18px; top:2px; width:1px; height:58px; background:linear-gradient(180deg, rgba(255,255,255,.22) 64%, transparent); }
+  .hero-scrolldown::after{ content:""; position:absolute; left:-20px; top:64px; width:5px; height:5px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); }
+  @keyframes scrollcue{ 0%,100%{ transform:translateY(0); opacity:.5 } 50%{ transform:translateY(5px); opacity:1 } }
+
+  .hero-cue{
+    display:block; position:absolute; left:50%; bottom:clamp(12px,2.2vh,22px); transform:translateX(-50%); z-index:4;
+    color:rgba(255,255,255,.45); animation:scrollcue 1.8s var(--ease) infinite;
+  }
+
+  /* top-left ruler ticks */
+  .hero-ruler{
+    display:block; position:absolute; left:16px; top:13.5%; width:7px; height:6.5%; z-index:3;
+    border-left:1px solid rgba(255,255,255,.20);
+    background:repeating-linear-gradient(180deg, rgba(255,255,255,.20) 0 1px, transparent 1px 14px);
+  }
+
+  /* bottom-centre hint: static, symmetric flanking lines */
+  .hero-scrollhint{ bottom:clamp(40px,7vh,64px); padding:0; }
+  .hero-scrollhint::before{ left:auto; right:100%; margin-right:18px; width:46px; animation:none; transform:translateY(-50%); }
+  .hero-scrollhint::after{ content:""; position:absolute; left:100%; margin-left:18px; top:50%; width:46px; height:1px; background:var(--accent); opacity:.6; transform:translateY(-50%); }
+}
+
+/* ============================================================
+   SERVICES (tabs + before/after)
+   ============================================================ */
+.services{ border-top:1px solid var(--line); padding-block:clamp(40px,5vw,72px); }
+.services-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:2rem; margin-bottom:clamp(34px,5vw,60px); flex-wrap:wrap; }
+.svc-grid{ display:grid; grid-template-columns:170px 1.05fr 1fr; gap:clamp(22px,3vw,44px); align-items:stretch; }
+
+.svc-thumbs{ display:flex; flex-direction:column; gap:16px; }
+.svc-thumb{ position:relative; border-radius:var(--radius-sm); aspect-ratio:5/3.6; flex:1; }
+.svc-thumb img{ width:100%; height:100%; object-fit:cover; }
+.svc-thumb .t-lbl{ position:absolute; left:10px; top:10px; z-index:3; font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text); background:rgba(12,12,14,.55); backdrop-filter:blur(6px); padding:.32rem .55rem; border-radius:5px; }
+.svc-thumb .t-pin{ position:absolute; right:12px; bottom:12px; z-index:3; width:10px; height:10px; background:#e8472f; transform:rotate(45deg); box-shadow:0 0 0 3px rgba(232,71,47,.18); }
+
+.svc-tabs{ display:flex; flex-direction:column; gap:.2rem; }
+.svc-tab{
+  display:flex; align-items:center; gap:.9rem; text-align:left;
+  font-family:var(--f-display); text-transform:uppercase; font-size:1.55rem; font-weight:500; letter-spacing:.02em;
+  color:var(--faint); padding:.55rem 0; transition:color var(--t) var(--ease);
+}
+.svc-tab .ix{ font-family:var(--f-body); font-size:.62rem; letter-spacing:.1em; color:var(--faint); opacity:0; transition:opacity var(--t) var(--ease); }
+.svc-tab .ln-tab{ width:0; height:1px; background:var(--accent); transition:width var(--t) var(--ease); }
+.svc-tab:hover{ color:var(--text-2); }
+.svc-tab[aria-selected="true"]{ color:var(--text); }
+.svc-tab[aria-selected="true"] .ln-tab{ width:28px; }
+.svc-tab[aria-selected="true"] .ix{ opacity:1; color:var(--accent); }
+
+/* before/after */
+.ba{ position:relative; border-radius:var(--radius); overflow:hidden; aspect-ratio:1/1; background:#1a1a1e; touch-action:none; user-select:none; }
+.ba .layer{ position:absolute; inset:0; }
+.ba .layer img{ width:100%; height:100%; object-fit:cover; display:block;
+  pointer-events:none; user-select:none; -webkit-user-drag:none; -webkit-touch-callout:none; }
+.ba .after{ clip-path:inset(0 0 0 50%); }
+.ba .lbl{ position:absolute; top:14px; font-size:.62rem; letter-spacing:.18em; text-transform:uppercase; padding:.4rem .7rem; border-radius:6px; background:rgba(12,12,14,.6); backdrop-filter:blur(6px); color:var(--text); z-index:4; }
+.ba .lbl.l{ left:14px; } .ba .lbl.r{ right:14px; color:var(--accent); }
+.ba .handle{ position:absolute; top:0; bottom:0; left:50%; width:2px; background:var(--accent); z-index:5; transform:translateX(-1px); }
+.ba .knob{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:46px; height:46px; border-radius:50%; background:var(--accent); color:var(--accent-ink); display:flex; align-items:center; justify-content:center; box-shadow:0 6px 24px rgba(0,0,0,.5); }
+.ba .after img{ filter:saturate(1.04); }
+
+.svc-detail h3{ font-family:var(--f-display); text-transform:uppercase; font-size:clamp(1.9rem,3vw,2.6rem); font-weight:600; letter-spacing:.02em; margin-bottom:1rem; }
+.svc-detail .desc{ color:var(--text-2); max-width:42ch; margin-bottom:2rem; }
+.svc-specs{ display:flex; flex-direction:column; gap:1.35rem; border-top:1px solid var(--line); padding-top:1.6rem; }
+.spec{ display:grid; grid-template-columns:1.75rem 1fr; gap:0 .95rem; align-items:center; }
+.spec > svg{ width:1.75rem; height:1.75rem; flex:none; color:var(--accent); display:block; }
+.spec > div{ display:flex; flex-direction:column; gap:.32rem; }
+.spec .k{ font-size:.64rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); line-height:1.2; }
+.spec .v{ font-size:.98rem; color:var(--text); font-weight:500; line-height:1.35; }
+.svc-fade{ transition:opacity .35s var(--ease); }
+.svc-fade.swap{ opacity:0; }
+@media (prefers-reduced-motion: reduce){ .svc-fade{ transition:none; } }
+
+/* ============================================================
+   PACKAGES — coverage tiers
+   ============================================================ */
+.packages{ padding-block:clamp(8px,2vw,20px) clamp(48px,7vw,96px); }
+.pkg-rail{ display:block; }
+.pkg-panel{
+  display:grid; grid-template-columns:repeat(3,1fr);
+  background:var(--bg-2); border:1px solid var(--line); border-radius:var(--radius);
+  overflow:hidden;
+}
+.pkg{
+  display:flex; flex-direction:column; position:relative;
+  padding:clamp(24px,2.6vw,42px); min-height:340px;
+  cursor:pointer; transition:background var(--t) var(--ease);
+}
+.pkg + .pkg{ border-left:1px solid var(--line); }
+.pkg:not(.feature):hover{ background:rgba(255,255,255,.025); }
+
+.pkg-lvl{
+  font-family:var(--f-body); font-size:.62rem; font-weight:600;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--muted);
+  margin-bottom:.95rem;
+}
+.pkg .name{
+  font-family:var(--f-display); text-transform:uppercase; letter-spacing:.04em;
+  font-size:clamp(1.5rem,2.4vw,2.1rem); font-weight:600; line-height:1;
+  margin-bottom:1rem; color:var(--text);
+}
+.pkg .blurb{ color:var(--text-2); font-size:.88rem; line-height:1.6; max-width:30ch; }
+
+/* price + gauge align at the bottom regardless of blurb length */
+.pkg .price{ display:flex; align-items:flex-end; gap:.45rem; margin-top:auto; padding-top:clamp(20px,2.4vw,30px); }
+.pkg .price .num{ font-family:var(--f-display); font-weight:600; font-size:clamp(2.3rem,3.6vw,3.1rem); line-height:.85; letter-spacing:.01em; font-variant-numeric:tabular-nums; }
+.pkg .price .cur{ color:var(--muted); font-size:.82rem; padding-bottom:.4rem; letter-spacing:.05em; }
+
+/* ── coverage gauge (signature) ── */
+.pkg-cov{ margin-top:1.3rem; }
+.pkg-cov-bar{
+  position:relative; height:8px; border-radius:100px;
+  background:rgba(255,255,255,.07); overflow:hidden;
+}
+.pkg-cov-fill{
+  position:absolute; left:0; top:0; bottom:0; width:0;
+  background:linear-gradient(90deg,var(--accent-2),var(--accent));
+  border-radius:100px;
+  transition:width 1.1s var(--ease-out);
+}
+/* 7 segment ticks cut into the bar */
+.pkg-cov-bar::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:repeating-linear-gradient(90deg,
+    transparent 0, transparent calc(100%/7 - 2px),
+    var(--bg-2) calc(100%/7 - 2px), var(--bg-2) calc(100%/7));
+}
+.cov-in .pkg-cov-fill{ width:var(--f); }
+.pkg:nth-child(1) .pkg-cov-fill{ transition-delay:.05s; }
+.pkg:nth-child(2) .pkg-cov-fill{ transition-delay:.22s; }
+.pkg:nth-child(3) .pkg-cov-fill{ transition-delay:.39s; }
+.pkg-cov-meta{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-top:.7rem; font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+}
+.pkg-cov-meta b{ color:var(--text); font-weight:600; font-variant-numeric:tabular-nums; letter-spacing:.08em; }
+
+/* ── premium / feature tier ── */
+.pkg.feature{ background:linear-gradient(165deg, rgba(212,240,0,.10) 0%, rgba(212,240,0,.02) 42%, transparent 100%); }
+.pkg.feature::before{
+  content:""; position:absolute; left:0; right:0; top:0; height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+}
+.pkg.feature:hover{ background:linear-gradient(165deg, rgba(212,240,0,.14) 0%, rgba(212,240,0,.03) 42%, transparent 100%); }
+.pkg.feature .pkg-lvl{ color:var(--accent); }
+.pkg.feature .name{ color:var(--accent); }
+.pkg.feature .price .num{ color:var(--accent); }
+.pkg.feature .pkg-cov-bar::after{ background:repeating-linear-gradient(90deg,
+    transparent 0, transparent calc(100%/7 - 2px),
+    var(--bg) calc(100%/7 - 2px), var(--bg) calc(100%/7)); }
+@media (prefers-reduced-motion: reduce){ .pkg-cov-fill{ transition:none; } }
+
+/* ============================================================
+   CALCULATOR (light section)
+   ============================================================ */
+/* dark premium configurator section (the 3D x-ray car reads cleanly on dark, no white bleed) */
+.calc{ background:radial-gradient(130% 90% at 50% 0%, #18181c 0%, #0d0d10 62%); color:var(--text); padding-block:clamp(54px,8vw,118px); border-top:1px solid var(--line); }
+.calc .eyebrow{ color:var(--accent); }
+/* big seamless model stage — soft spotlight, no visible box */
+.calc-grid3d{ display:grid; grid-template-columns:1.65fr 1fr; gap:clamp(26px,4vw,60px); align-items:center; }
+.calc-stage{ position:relative; aspect-ratio:16/11; min-height:300px; overflow:hidden; margin-left:calc(-1 * var(--pad)); margin-right:calc(-0.5 * var(--pad));
+  background:radial-gradient(58% 52% at 50% 60%, rgba(255,255,255,.07) 0%, rgba(255,255,255,0) 70%); }
+.calc-stage canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; }
+.calc-hint{ position:absolute; left:50%; bottom:10px; transform:translateX(-50%); font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); pointer-events:none; }
+.calc-cfg-loader{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; transition:opacity .5s var(--ease); }
+.calc-cfg-loader.hide{ opacity:0; pointer-events:none; }
+.calc-cfg-loader span{ width:38px; height:38px; border-radius:50%; border:2px solid rgba(255,255,255,.16); border-top-color:var(--accent); animation:cfgspin 1s linear infinite; }
+@keyframes cfgspin{ to{ transform:rotate(360deg); } }
+.calc-side h2{ font-family:var(--f-display); text-transform:uppercase; font-size:clamp(1.8rem,3vw,2.4rem); font-weight:600; line-height:1; margin:.5rem 0 0; color:var(--text); }
+.calc-side .calc-side-sub{ color:var(--text-2); max-width:40ch; margin:.6rem 0 1.4rem; }
+.calc-side .calc-total{ margin-top:1.4rem; }
+/* dark-theme overrides for the reused light calc components */
+.calc-col h4{ color:var(--muted); }
+.calc .opt .box{ background:rgba(255,255,255,.05); border-color:var(--line-2); }
+.calc .opt .name{ color:var(--text); }
+.calc .opt .from{ color:var(--muted); }
+.calc .calc-total{ border-left-color:var(--line); }
+.calc .calc-total .amount .num{ color:var(--text); }
+@media (max-width:900px){ .calc-grid3d{ grid-template-columns:1fr; } .calc-stage{ aspect-ratio:1/1; } }
+.calc-grid{ display:grid; grid-template-columns:1fr 1fr .9fr; gap:clamp(28px,4vw,56px); align-items:start; }
+.calc-intro h2{ font-family:var(--f-display); text-transform:uppercase; font-size:clamp(1.8rem,3vw,2.6rem); font-weight:600; line-height:1; margin:.6rem 0 1rem; color:var(--ink); }
+.calc-intro p{ color:#55555a; max-width:34ch; margin-bottom:2rem; }
+.car-top{ width:100%; max-width:380px; }
+.car-top .zone{ fill:#cfcfcc; stroke:#b4b4b0; stroke-width:1.4; transition:fill .35s var(--ease); }
+.car-top .zone.on{ fill:var(--accent); stroke:var(--accent-2); }
+.car-top .body{ fill:none; stroke:#9a9a96; stroke-width:2; }
+.car-top .glass{ fill:#dededb; stroke:#b4b4b0; stroke-width:1.2; }
+
+.calc-cols{ display:grid; grid-template-columns:1fr 1fr; gap:1.4rem 1.8rem; }
+.calc-col h4{ font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:#8a8a8a; margin-bottom:1rem; }
+.opt{ display:flex; align-items:center; gap:.75rem; padding:.55rem 0; cursor:pointer; }
+.opt input{ position:absolute; opacity:0; width:0; height:0; }
+.opt .box{ width:22px; height:22px; flex:none; border:1.5px solid #b6b6b2; border-radius:6px; display:flex; align-items:center; justify-content:center; background:#fff; transition:background var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease); }
+.opt .box svg{ opacity:0; transform:scale(.5); transition:opacity var(--t-fast) var(--ease), transform var(--t-fast) var(--ease); color:var(--accent-ink); }
+.opt input:checked + .box{ background:var(--accent); border-color:var(--accent-2); }
+.opt input:checked + .box svg{ opacity:1; transform:none; }
+.opt input:focus-visible + .box{ outline:2px solid #6b7a00; outline-offset:2px; }
+.opt .txt{ display:flex; flex-direction:column; line-height:1.25; }
+.opt .name{ font-size:.95rem; font-weight:600; color:var(--ink); }
+.opt .from{ font-size:.74rem; color:#8a8a8a; }
+
+.calc-total{ padding-left:clamp(0px,2vw,28px); border-left:1px solid var(--line-dark); position:sticky; top:96px; }
+.calc-total .k{ font-size:.64rem; letter-spacing:.18em; text-transform:uppercase; color:#8a8a8a; }
+.calc-total .amount{ display:flex; align-items:flex-end; gap:.4rem; margin:.7rem 0 1.8rem; }
+.calc-total .amount .num{ font-family:var(--f-display); font-weight:600; font-size:clamp(2.8rem,5.5vw,4rem); color:var(--ink); line-height:.9; font-variant-numeric:tabular-nums; }
+.calc-total .amount .cur{ color:#8a8a8a; padding-bottom:.55rem; font-size:.9rem; }
+.calc-total .btn{ width:100%; justify-content:center; }
+.calc-total .note{ font-size:.74rem; color:#8a8a8a; line-height:1.5; margin-top:1.2rem; }
+@media (max-width:1080px){ .calc-total{ border-left:none; padding-left:0; } }
+
+/* ============================================================
+   BOOKING + ABOUT
+   ============================================================ */
+.studio{ border-top:1px solid var(--line); padding-block:clamp(48px,7vw,96px); }
+.studio-grid{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px,5vw,72px); }
+.studio-hd{ margin-bottom:clamp(28px,4vw,52px); }
+.studio-right{ display:flex; flex-direction:column; gap:clamp(24px,3vw,40px); }
+.studio-right .studio-photo{ min-height:260px; }
+.block-title{ font-family:var(--f-display); text-transform:uppercase; font-weight:600; letter-spacing:.05em; font-size:clamp(1.4rem,2.2vw,1.9rem); color:var(--text); margin-bottom:.9rem; }
+.block-sub{ color:var(--text-2); font-size:.98rem; max-width:34ch; margin-bottom:2rem; }
+
+#bookingForm{ display:flex; flex-direction:column; gap:.15rem; }
+.form-field{ position:relative; margin-bottom:.85rem; }
+.form-field input{
+  width:100%; height:3.45rem;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.10); border-radius:var(--radius-sm);
+  padding:1.45rem 1.15rem .55rem;
+  color:var(--text); font-size:1rem; line-height:1.35;
+  transition:border-color var(--t) var(--ease), box-shadow var(--t) var(--ease);
+  -webkit-appearance:none; appearance:none;
+}
+.form-field input::placeholder{ color:transparent; }
+.form-field input:-webkit-autofill,
+.form-field input:-webkit-autofill:hover,
+.form-field input:-webkit-autofill:focus{
+  -webkit-text-fill-color:var(--text);
+  caret-color:var(--text);
+  -webkit-box-shadow:0 0 0 1000px rgba(255,255,255,.04) inset;
+  box-shadow:0 0 0 1000px rgba(255,255,255,.04) inset;
+  transition:background-color 9999s ease-out 0s;
+}
+.form-field label{
+  position:absolute; left:1.15rem; top:1.05rem; color:var(--muted); pointer-events:none;
+  font-size:.95rem; line-height:1; transform-origin:left top;
+  transition:transform var(--t) var(--ease), color var(--t) var(--ease), letter-spacing var(--t) var(--ease);
+}
+.form-field input:focus{
+  border-color:rgba(212,240,0,.42);
+  box-shadow:0 0 0 3px rgba(212,240,0,.08); outline:none;
+}
+.form-field input:focus + label,
+.form-field input:not(:placeholder-shown) + label,
+.form-field input.has-value + label{
+  transform:translateY(-.62rem) scale(.72);
+  letter-spacing:.12em; text-transform:uppercase; color:var(--accent);
+}
+.form-msg{ min-height:1.2rem; font-size:.8rem; margin:.5rem 0 1rem; }
+.form-msg.err{ color:#ff6b6b; } .form-msg.ok{ color:var(--accent); }
+#bookingForm .btn{ width:100%; justify-content:center; margin-top:.6rem; }
+
+.about p{ color:var(--text-2); max-width:38ch; margin-bottom:2rem; }
+.stats{ display:flex; gap:clamp(18px,3vw,40px); flex-wrap:wrap; }
+.stat .num{ font-family:var(--f-display); font-weight:600; color:var(--accent); font-size:clamp(2rem,3.6vw,2.8rem); line-height:.9; font-variant-numeric:tabular-nums; }
+.stat .lbl{ font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-top:.5rem; max-width:14ch; }
+
+.studio-photo{ position:relative; border-radius:var(--radius); overflow:hidden; min-height:320px; }
+.studio-photo .neon{ position:absolute; right:18px; bottom:18px; z-index:3; font-family:var(--f-display); font-weight:700; text-transform:uppercase; letter-spacing:.08em; line-height:.86; text-align:right; font-size:clamp(1.4rem,2.4vw,2rem); color:#fff; text-shadow:0 0 12px rgba(212,240,0,.5), 0 0 26px rgba(212,240,0,.3); }
+.studio-photo .neon span{ color:var(--accent); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.site-footer{ border-top:1px solid var(--line); padding-block:clamp(36px,5vw,56px); }
+.foot-main{ display:grid; grid-template-columns:1.5fr 1fr 1.3fr 1fr; gap:clamp(24px,4vw,52px); margin-bottom:clamp(28px,3vw,40px); align-items:start; }
+.foot-brand{ display:flex; flex-direction:column; }
+.foot-logo{ display:block; width:193px; height:44px;
+  background:url("assets/alen.jpg") no-repeat -12px -63px; background-size:213px 171px; }
+.foot-tagline{ font-size:.8rem; color:var(--muted); line-height:1.55; margin-top:.9rem; max-width:22ch; }
+.foot-section h5{ font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:.9rem; }
+.foot-section a, .foot-section p{ display:block; color:var(--text-2); font-size:.88rem; padding:.2rem 0; transition:color var(--t) var(--ease); text-decoration:none; }
+.foot-section a:hover{ color:var(--accent); }
+.soc-btn{ display:flex; align-items:center; gap:.65rem; color:var(--text-2); font-size:.88rem; padding:.25rem 0; text-decoration:none; transition:color var(--t) var(--ease); }
+.soc-btn:hover{ color:var(--accent); }
+.soc-btn svg{ width:15px; height:15px; flex:none; opacity:.6; transition:opacity var(--t) var(--ease); }
+.soc-btn:hover svg{ opacity:1; }
+.foot-bottom{ display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:1.4rem; font-size:.76rem; color:var(--muted); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1080px){
+  .nav-links{ display:none; }
+  .burger{ display:flex; }
+  .hero-side{ display:none; }
+  .hero-bottom{ flex-direction:column; align-items:flex-start; gap:1.6rem; }
+  .hero-meta{ max-width:none; }
+  .svc-grid{ grid-template-columns:1fr; }
+  .svc-tabs{ display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem 1.2rem; }
+  .svc-tab{ font-size:1.2rem; }
+  .ba{ aspect-ratio:1/1; max-width:520px; }
+  .pkg-panel{ grid-template-columns:1fr; }
+  .pkg{ min-height:auto; }
+  .pkg + .pkg{ border-left:none; border-top:1px solid var(--line); }
+  .calc-grid{ grid-template-columns:1fr; }
+  .calc-total{ position:static; }
+  .studio-grid{ grid-template-columns:1fr; }
+  .calc-intro .car-top{ margin-top:1.5rem; }
+}
+@media (max-width:560px){
+  :root{ --maxw:100%; }
+  .nav{ height:64px; }
+  .nav-apply{ display:none; }
+  .hero-inner{ padding-top:96px; }
+  .mobile-menu{ inset:64px 0 0 0; }
+  .calc-cols{ grid-template-columns:1fr; }
+  .foot-main{ grid-template-columns:1fr; }
+}
+/* ── mobile: scroll-scrub + hero-text fade + pricing redesign (phones only) ── */
+.hero-canvas-mob{ display:none; }
+@media (max-width:759px){
+  /* scroll-scrub canvas */
+  .hero-canvas-mob{ display:block; position:absolute; inset:0; width:100%; height:100%; }
+  .hero--mob-scrub{ height:350vh; min-height:unset; overflow:visible; }
+  .hero--mob-scrub .hero-sticky{ position:sticky; top:0; height:100svh; overflow:hidden; }
+
+  /* hero text layer: JS drives opacity; very short transition = nearly instant */
+  .hero--mob-scrub .hero-inner{
+    transition: opacity .05s linear;
+    will-change: opacity;
+  }
+
+  /* ── pricing section: stacked coverage tiers ── */
+  .pkg-panel{
+    display:flex; flex-direction:column; gap:0;
+    background:none; border:none; border-radius:0; overflow:visible;
+  }
+
+  .pkg, .pkg.feature{
+    display:grid !important;
+    grid-template-columns:1fr auto;
+    grid-template-areas:
+      "lvl   price"
+      "name  price"
+      "blurb blurb"
+      "cov   cov"
+      "tog   tog"
+      "acc   acc";
+    align-items:start;
+    column-gap:1rem;
+    row-gap:0;
+    padding:1.45rem 0 1.55rem !important;
+    border:none !important;
+    border-left:none !important;
+    border-top:1px solid var(--line) !important;
+    border-radius:0 !important;
+    background:none !important;
+    box-shadow:none !important;
+    transform:none !important;
+    cursor:default !important;
+    min-height:unset !important;
+    transition:none !important;
+  }
+  .pkg::before{ display:none !important; }
+  .pkg:not(.feature):hover{ background:none !important; }
+
+  .pkg-lvl{ grid-area:lvl; margin-bottom:.3rem; font-size:.56rem; }
+  .pkg .name{
+    grid-area:name; font-size:1.4rem; letter-spacing:.04em;
+    margin-bottom:0; line-height:1; align-self:start;
+  }
+  .pkg .price{
+    grid-area:price; flex-direction:column; align-items:flex-end;
+    justify-content:center; margin-top:0; padding-top:0; gap:.04rem; align-self:center;
+  }
+  .pkg .price .num{ font-size:1.85rem; line-height:.9; }
+  .pkg .price .cur{ font-size:.66rem; padding-bottom:0; color:var(--muted); }
+  .pkg .blurb{
+    grid-area:blurb; font-size:.79rem; color:var(--muted);
+    max-width:none; margin:.7rem 0 0; line-height:1.6;
+  }
+  .pkg-cov{ grid-area:cov; margin-top:1.05rem; }
+  .pkg-cov-bar::after{ background:repeating-linear-gradient(90deg,
+      transparent 0, transparent calc(100%/7 - 2px),
+      var(--bg) calc(100%/7 - 2px), var(--bg) calc(100%/7)); }
+  .pkg-toggle{
+    grid-area:tog; margin-top:1.15rem; padding:.7rem 0 0;
+    font-size:.6rem;
+  }
+  .pkg-accord{ grid-area:acc; }
+  .pkg-book{ font-size:.76rem; }
+
+  /* Premium: colour-only highlight, no box */
+  .pkg.feature{ border-top-color:rgba(212,240,0,.28) !important; }
+  .pkg.feature .pkg-lvl{ color:var(--accent); }
+  .pkg.feature .name{ color:var(--accent); }
+  .pkg.feature .price .num{ color:var(--accent); }
+  .pkg.feature .pkg-toggle{ border-top-color:rgba(212,240,0,.16) !important; }
+
+  /* ── 3D calculator stage: fit within screen, no bleed ── */
+  .calc-stage{
+    margin-inline:0 !important;
+    min-height:unset !important;
+    aspect-ratio:4/3 !important;
+    border-radius:var(--radius-sm);
+    overflow:hidden;
+  }
+}
+
+.nocursor{ cursor:default; }
+
+/* ── car brand autocomplete ── */
+.form-field.dropdown-open input{ border-radius:var(--radius-sm) var(--radius-sm) 0 0; }
+.brand-dropdown{
+  position:absolute; top:100%; left:0; right:0; z-index:100;
+  background:var(--bg-card); border:1px solid rgba(212,240,0,.22);
+  border-top:none; border-radius:0 0 var(--radius-sm) var(--radius-sm);
+  max-height:252px; overflow-y:auto;
+  opacity:0; transform:translateY(-4px); pointer-events:none;
+  transition:opacity .22s var(--ease-out), transform .22s var(--ease-out);
+  scrollbar-width:thin; scrollbar-color:var(--line-2) transparent;
+}
+.brand-dropdown.open{ opacity:1; transform:none; pointer-events:auto; }
+.brand-option{
+  display:flex; align-items:center; gap:.85rem;
+  padding:.72rem 1.15rem; cursor:pointer;
+  transition:background .16s var(--ease);
+}
+.brand-option:hover,.brand-option.active{ background:rgba(212,240,0,.07); }
+.brand-option-logo{ width:26px; height:26px; object-fit:contain; background:#fff; border-radius:5px; flex:none; padding:2px; }
+.brand-option-name{ font-size:.88rem; color:var(--text-2); }
+.brand-option:hover .brand-option-name,.brand-option.active .brand-option-name{ color:var(--text); }
+/* selected brand logo badge inside the car input */
+.car-logo-badge{
+  display:none; position:absolute; left:1.15rem; bottom:.62rem; z-index:3;
+  width:26px; height:26px; background:#fff; border-radius:5px; padding:2px;
+  align-items:center; justify-content:center; pointer-events:none;
+  animation:badgeIn .22s var(--ease-out);
+}
+@keyframes badgeIn{ from{opacity:0;transform:scale(.7)} to{opacity:1;transform:none} }
+.car-logo-badge.visible{ display:flex; }
+.car-logo-badge img{ width:100%; height:100%; object-fit:contain; display:block; }
+.form-field.brand-picked #car{ padding-left:3.2rem; }
+@media (max-width:860px){ .foot-main{ grid-template-columns:1fr 1fr; } }
+
+/* ============================================================
+   PACKAGE CARDS — interactive accordion
+   ============================================================ */
+.pkg-toggle{
+  display:flex; align-items:center; justify-content:space-between; gap:.6rem;
+  width:100%; margin-top:1.5rem; padding:.75rem 0 0;
+  border-top:1px solid var(--line);
+  font-size:.64rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  transition:color var(--t) var(--ease);
+}
+.pkg-toggle:hover{ color:var(--accent); }
+.pkg-chevron{ flex:none; transition:transform .4s var(--ease-out); }
+.pkg-toggle[aria-expanded="true"] .pkg-chevron{ transform:rotate(180deg); }
+
+.pkg-accord{
+  overflow:hidden; max-height:0;
+  transition:max-height .48s var(--ease-out);
+}
+.pkg-accord.open{ max-height:560px; }
+
+.pkg-services{
+  padding:1rem 0; margin-bottom:.4rem;
+}
+.pkg-services li{
+  display:flex; align-items:center; gap:.7rem;
+  font-size:.85rem; color:var(--text-2); padding:.32rem 0;
+}
+.pkg-services li::before{
+  content:""; width:5px; height:5px; border-radius:50%;
+  background:var(--accent); flex:none;
+}
+.pkg-book{
+  width:100%; justify-content:center; font-size:.76rem;
+}
+/* feature card accordion tweaks */
+.pkg.feature .pkg-toggle{ border-top-color:rgba(212,240,0,.18); }
+.pkg.feature .pkg-services li{ color:var(--text-2); }
+
+/* ============================================================
+   BOOKING SELECTION BOX
+   ============================================================ */
+.booking-sel{
+  display:none; margin-bottom:1.6rem;
+  background:linear-gradient(135deg, rgba(212,240,0,.09) 0%, rgba(212,240,0,.04) 100%);
+  border:1px solid rgba(212,240,0,.28); border-radius:var(--radius);
+  padding:1.4rem 1.5rem;
+}
+.booking-sel.visible{ display:block; animation:bselIn .42s var(--ease-out); }
+@keyframes bselIn{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+.bsel-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:.6rem; }
+.bsel-label{ font-size:.58rem; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); }
+.bsel-clear{
+  display:flex; align-items:center; gap:.35rem;
+  font-size:.64rem; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted); background:none; border:none; cursor:pointer; padding:0;
+  font-family:var(--f-body);
+  transition:color var(--t) var(--ease);
+}
+.bsel-clear:hover{ color:var(--text); }
+.bsel-clear svg{ transition:transform .25s var(--ease); flex:none; }
+.bsel-clear:hover svg{ transform:rotate(90deg); }
+.bsel-name{
+  font-family:var(--f-display); text-transform:uppercase;
+  font-size:1.1rem; letter-spacing:.04em; color:var(--text); margin-bottom:.65rem;
+}
+.bsel-chips{ display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:.9rem; }
+.bsel-chip{
+  font-size:.7rem; color:var(--text-2);
+  background:rgba(255,255,255,.06); border:1px solid var(--line-2);
+  padding:.3rem .7rem; border-radius:100px;
+}
+.bsel-price{ display:flex; align-items:baseline; gap:.35rem; }
+.bsel-price .num{ font-family:var(--f-display); font-weight:600; font-size:1.3rem; color:var(--accent); }
+.bsel-price .cur{ font-family:var(--f-body); font-size:.8rem; color:var(--muted); }
+
+/* package selected state — inset ring fits the flat grid panel */
+.pkg--selected{
+  background:rgba(212,240,0,.07) !important;
+  box-shadow:inset 0 0 0 1.5px rgba(212,240,0,.55) !important;
+}
+.pkg--selected::before{ opacity:1 !important; }
+.pkg--selected .pkg-lvl{ color:var(--accent); }
+</style>
+</head>
+
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="header">
+  <div class="wrap nav">
+    <a href="#top" class="brand" aria-label="Alen Studio — головна">
+      <span class="brand-logo" role="img" aria-label="Alen Studio"></span>
+    </a>
+    <nav class="nav-links" aria-label="Головна навігація">
+      <a href="#services">Послуги</a>
+      <a href="#packages">Прайс</a>
+      <a href="#calc">Калькулятор</a>
+      <a href="#booking">Заявка</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="#booking" class="btn btn-ghost nav-apply">Онлайн заявка
+        <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Мобільна навігація">
+  <a href="#services">Послуги</a>
+  <a href="#packages">Прайс</a>
+  <a href="#calc">Калькулятор</a>
+  <a href="#booking">Заявка</a>
+  <a href="#booking" class="btn btn-accent">Онлайн заявка
+    <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</nav>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="hero-sticky">
+    <div class="hero-bg" id="heroImg">
+      <img class="hero-fallback" alt="Салон автомобіля до професійної хімчистки"
+           src="assets/hero-poster.jpg"
+           fetchpriority="high" decoding="async"
+           onload="this.classList.add('loaded')" />
+      <video id="heroVideo" class="hero-video" muted playsinline preload="auto"
+             poster="assets/hero-poster.jpg" disablepictureinpicture aria-hidden="true">
+        <source src="assets/hero-web.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <span class="hero-scrollhint" id="heroHint">Гортайте — оживляємо кадр</span>
+
+    <!-- right-edge socials (desktop) -->
+    <div class="hero-social" aria-label="Соцмережі Alen Studio">
+      <a href="https://www.instagram.com/alenstudio_detailing" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></svg>
+      </a>
+      <a href="https://t.me/+380972056022" aria-label="Telegram" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3l-3.1 14.6c-.2 1-.9 1.3-1.7.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-.9.5l.3-4.7L18 6.1c.4-.3-.1-.5-.6-.2L7.3 12.2l-4.6-1.4c-1-.3-1-.9.2-1.4l17.7-6.8c.8-.3 1.5.2 1.3 1.5z"/></svg>
+      </a>
+    </div>
+
+    <!-- scroll cue bottom-left (desktop) -->
+    <div class="hero-scrolldown" aria-hidden="true">
+      <span>Scroll<br>Down</span>
+      <svg width="16" height="9" viewBox="0 0 16 9" fill="none"><path d="M1 1l7 7 7-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
+    <!-- centre chevron cue (desktop) -->
+    <span class="hero-cue" aria-hidden="true">
+      <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M1 1l8 8 8-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
+
+    <!-- left ruler decoration (desktop) -->
+    <span class="hero-ruler" aria-hidden="true"></span>
+
+    <div class="wrap hero-inner">
+      <span class="hero-eyebrow">Professional Car Care</span>
+      <h1 class="display">
+        <span class="ln"><span>Хімчистка</span></span>
+        <span class="ln accent"><span>Салону</span></span>
+      </h1>
+
+      <div class="hero-bottom">
+        <div class="hero-bl">
+          <p class="hero-sub">Повертаємо вашому авто<br>відчуття нового салону.</p>
+          <a href="#calc" class="hero-cta">
+            <span>Розрахувати вартість</span>
+            <svg width="22" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true"><path d="M0 5h20M16 1l5 4-5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+        <div class="hero-meta">
+          <p><span class="lab">Alen Studio</span> — студія професійного догляду за автомобілем.</p>
+          <p class="city">Біла Церква</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="svc-grid" id="process">
+      <!-- tabs -->
+      <div class="svc-tabs reveal" role="tablist" aria-label="Зони очищення">
+        <button class="svc-tab" role="tab" aria-selected="true" data-svc="0"><span class="ix">01</span> Сидіння <span class="ln-tab"></span></button>
+        <button class="svc-tab" role="tab" aria-selected="false" data-svc="1"><span class="ix">02</span> Стеля <span class="ln-tab"></span></button>
+        <button class="svc-tab" role="tab" aria-selected="false" data-svc="2"><span class="ix">03</span> Пластик <span class="ln-tab"></span></button>
+        <button class="svc-tab" role="tab" aria-selected="false" data-svc="3"><span class="ix">04</span> Підлога <span class="ln-tab"></span></button>
+        <button class="svc-tab" role="tab" aria-selected="false" data-svc="4"><span class="ix">05</span> Багажник <span class="ln-tab"></span></button>
+      </div>
+
+      <!-- before/after -->
+      <div class="ba reveal" data-d="1" id="ba" aria-label="Порівняння до та після очищення">
+        <span class="lbl l">До</span>
+        <span class="lbl r">Після</span>
+        <div class="layer before">
+          <img id="baBefore" alt="Сидіння до очищення" src="assets/seat_before.webp" decoding="async" draggable="false" width="1254" height="1254"/>
+        </div>
+        <div class="layer after" id="baAfter">
+          <img id="baImgAfter" alt="Сидіння після очищення" src="assets/seat_after.webp" decoding="async" draggable="false" width="1254" height="1254"/>
+        </div>
+        <div class="handle" id="baHandle">
+          <div class="knob" aria-hidden="true">
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M6 2 1 7l5 5M14 2l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <input type="range" min="0" max="100" value="50" id="baRange" aria-label="Перетягніть, щоб порівняти до та після" style="position:absolute;inset:auto 0 0 0;width:100%;opacity:0;height:46px;z-index:6;cursor:ew-resize"/>
+      </div>
+
+      <!-- detail -->
+      <div class="svc-detail">
+        <div class="svc-fade" id="svcContent">
+          <h3 id="svcTitle">Сидіння</h3>
+          <p class="desc" id="svcDesc">Глибоке очищення тканини або шкіри від плям, бруду та запахів. Повертаємо первинний вигляд та захищаємо матеріал.</p>
+          <div class="svc-specs">
+            <div class="spec">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              <div><div class="k">Час виконання</div><div class="v" id="svcTime">1–3 години</div></div>
+            </div>
+            <div class="spec">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div><div class="k">Результат</div><div class="v" id="svcResult">Чистота, свіжість, захист</div></div>
+            </div>
+            <div class="spec">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3s6 6.5 6 11a6 6 0 1 1-12 0c0-4.5 6-11 6-11z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+              <div><div class="k">Метод</div><div class="v" id="svcMethod">Професійна хімія та обладнання</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ PACKAGES / PRICING ============ -->
+<section class="packages" id="packages">
+  <div class="wrap">
+    <div class="services-head reveal">
+      <div>
+        <span class="eyebrow">Пакети догляду</span>
+        <h2 class="sec-title" style="margin-top:.55rem">Прайс</h2>
+      </div>
+      <p style="color:var(--text-2);font-size:.95rem;max-width:40ch;line-height:1.6">Три рівні покриття салону — від базового догляду до повного захисту. Або зберіть власну комбінацію в калькуляторі нижче.</p>
+    </div>
+    <div class="pkg-rail reveal" data-d="1">
+      <div class="pkg-panel">
+
+        <div class="pkg" data-pkg-id="economy">
+          <span class="pkg-lvl">Базовий</span>
+          <div class="name">Економ</div>
+          <p class="blurb">Сидіння та підлога — догляд за найбільш використовуваними зонами салону.</p>
+          <div class="price"><span class="num">3 000</span><span class="cur">грн</span></div>
+          <div class="pkg-cov">
+            <div class="pkg-cov-bar"><span class="pkg-cov-fill" style="--f:28.571%"></span></div>
+            <div class="pkg-cov-meta"><span>Покриття</span><b>2 / 7</b></div>
+          </div>
+          <button class="pkg-toggle" aria-expanded="false">
+            <span>Що входить</span>
+            <svg class="pkg-chevron" width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden="true"><path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="pkg-accord">
+            <ul class="pkg-services">
+              <li>Сидіння</li>
+              <li>Підлога</li>
+            </ul>
+            <button class="btn btn-ghost pkg-book" data-pkg="economy">Вибрати пакет
+              <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="pkg" data-pkg-id="standard">
+          <span class="pkg-lvl">Повний салон</span>
+          <div class="name">Стандарт</div>
+          <p class="blurb">Сидіння, стеля, пластик, підлога та дверні карти — повний догляд за салоном без багажника.</p>
+          <div class="price"><span class="num">4 500</span><span class="cur">грн</span></div>
+          <div class="pkg-cov">
+            <div class="pkg-cov-bar"><span class="pkg-cov-fill" style="--f:71.43%"></span></div>
+            <div class="pkg-cov-meta"><span>Покриття</span><b>5 / 7</b></div>
+          </div>
+          <button class="pkg-toggle" aria-expanded="false">
+            <span>Що входить</span>
+            <svg class="pkg-chevron" width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden="true"><path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="pkg-accord">
+            <ul class="pkg-services">
+              <li>Сидіння</li>
+              <li>Стеля</li>
+              <li>Пластик</li>
+              <li>Підлога</li>
+              <li>Дверні карти</li>
+            </ul>
+            <button class="btn btn-ghost pkg-book" data-pkg="standard">Вибрати пакет
+              <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="pkg feature" data-pkg-id="premium">
+          <span class="pkg-lvl">Макс. захист</span>
+          <div class="name">Преміум</div>
+          <p class="blurb">Глибока хімчистка всього салону + захист пластику та шкіри. Максимальний результат.</p>
+          <div class="price"><span class="num">6 500</span><span class="cur">грн</span></div>
+          <div class="pkg-cov">
+            <div class="pkg-cov-bar"><span class="pkg-cov-fill" style="--f:100%"></span></div>
+            <div class="pkg-cov-meta"><span>Повне покриття</span><b>7 / 7</b></div>
+          </div>
+          <button class="pkg-toggle" aria-expanded="false">
+            <span>Що входить</span>
+            <svg class="pkg-chevron" width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden="true"><path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="pkg-accord">
+            <ul class="pkg-services">
+              <li>Сидіння</li>
+              <li>Стеля</li>
+              <li>Пластик</li>
+              <li>Підлога</li>
+              <li>Дверні карти</li>
+              <li>Захист пластику</li>
+              <li>Захист шкіри</li>
+            </ul>
+            <button class="btn btn-accent pkg-book" data-pkg="premium">Вибрати пакет
+              <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CALCULATOR ============ -->
+<section class="calc" id="calc">
+  <div class="wrap">
+    <div class="calc-grid3d">
+      <div class="calc-stage reveal">
+        <canvas id="cfgCanvas"></canvas>
+        <span class="calc-hint">Тягніть, щоб обертати · клікайте по зонах авто</span>
+        <div class="calc-cfg-loader" id="cfgLoader"><span></span></div>
+      </div>
+      <div class="calc-side reveal" data-d="1">
+        <span class="eyebrow">Локальна хімчистка</span>
+        <h2>Локальний калькулятор хімчистки салону</h2>
+        <p class="calc-side-sub">Для клієнтів, яким потрібно почистити лише окремі зони салону без замовлення повної хімчистки. Оберіть потрібні зони — порахуємо вартість.</p>
+        <div class="calc-col" id="calcZones">
+          <label class="opt"><input type="checkbox" class="calc-in" data-zone="Seats" data-price="2000"><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">Сидіння</span><span class="from">від 2 000 грн</span></span></label>
+          <label class="opt"><input type="checkbox" class="calc-in" data-zone="Dashboard" data-price="300"><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">Передня панель</span><span class="from">від 300 грн</span></span></label>
+          <label class="opt"><input type="checkbox" class="calc-in" data-zone="Console" data-price="200"><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">Центральна консоль</span><span class="from">від 200 грн</span></span></label>
+          <label class="opt"><input type="checkbox" class="calc-in" data-zone="Doors" data-price="1000"><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">Дверні карти</span><span class="from">від 1 000 грн</span></span></label>
+          <label class="opt"><input type="checkbox" class="calc-in" data-zone="Roof" data-price="800"><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">Стеля</span><span class="from">від 800 грн</span></span></label>
+          <label class="opt"><input type="checkbox" class="calc-in" data-zone="Floor" data-price="1000"><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">Підлога</span><span class="from">від 1 000 грн</span></span></label>
+          <label class="opt"><input type="checkbox" class="calc-in" data-zone="Trunk" data-price="500"><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt"><span class="name">Багажник</span><span class="from">від 500 грн</span></span></label>
+        </div>
+        <div class="calc-total">
+          <div class="k">Попередня вартість</div>
+          <div class="amount"><span class="num" id="calcTotal">0</span><span class="cur">грн</span></div>
+          <button type="button" class="btn btn-accent" id="calcBookBtn">Оформити заявку
+            <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <p class="note">Точна вартість визначається після огляду автомобіля майстром студії.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOOKING + ABOUT ============ -->
+<section class="studio" id="booking">
+  <div class="wrap">
+    <div class="studio-hd reveal">
+      <span class="eyebrow">Онлайн запис</span>
+      <h2 class="sec-title">Залишити заявку</h2>
+    </div>
+    <div class="studio-grid">
+
+      <!-- left: form -->
+      <div class="reveal">
+        <div class="booking-sel" id="bookingSel" aria-live="polite"></div>
+        <form id="bookingForm" novalidate>
+          <div class="form-field">
+            <input type="text" id="name" name="name" placeholder="Ім'я" autocomplete="name" required />
+            <label for="name">Ім'я</label>
+          </div>
+          <div class="form-field">
+            <input type="tel" id="phone" name="phone" placeholder="Телефон" autocomplete="tel" inputmode="tel" required />
+            <label for="phone">Телефон</label>
+          </div>
+          <div class="form-field">
+            <div class="car-logo-badge" id="carLogoBadge" aria-hidden="true"></div>
+            <input type="text" id="car" name="car" placeholder="Марка авто" autocomplete="off" />
+            <label for="car">Марка авто</label>
+          </div>
+          <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+          <button type="submit" class="btn btn-accent" id="submitBtn">Надіслати заявку
+            <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+      </div>
+
+      <!-- right: about + photo stacked -->
+      <div class="studio-right reveal" data-d="1">
+        <div class="about" id="studio">
+          <h2 class="block-title">Про студію</h2>
+          <p class="block-sub">Alen Studio — студія професійного догляду за салоном автомобіля. Використовуємо тільки якісну хімію та сучасне обладнання.</p>
+          <div class="stats">
+            <div class="stat">
+              <div class="num" data-count="500" data-suffix="+">500+</div>
+              <div class="lbl">Автомобілів оброблено</div>
+            </div>
+            <div class="stat">
+              <div class="num" data-count="8" data-suffix=" років">8 років</div>
+              <div class="lbl">Досвід детейлінгу</div>
+            </div>
+            <div class="stat">
+              <div class="num" data-count="98" data-suffix="%">98%</div>
+              <div class="lbl">Задоволених клієнтів</div>
+            </div>
+          </div>
+        </div>
+        <div class="studio-photo imgframe">
+          <img src="assets/alen-final.png" alt="Alen Studio — професійний детейлінг автомобілів" decoding="async" style="width:100%;height:100%;object-fit:cover;" onload="this.classList.add('loaded')" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-main">
+      <div class="foot-brand">
+        <span class="foot-logo" role="img" aria-label="Alen Studio"></span>
+        <p class="foot-tagline">Студія детейлінгу<br>у Білій Церкві</p>
+      </div>
+      <nav class="foot-section" aria-label="Навігація в підвалі">
+        <h5>Навігація</h5>
+        <a href="#services">Послуги</a>
+        <a href="#packages">Прайс</a>
+        <a href="#calc">Калькулятор</a>
+        <a href="#booking">Заявка</a>
+      </nav>
+      <div class="foot-section">
+        <h5>Контакти</h5>
+        <a href="tel:+380972056022">+380 97 205 6022</a>
+        <p>Біла Церква</p>
+        <p>Сквирське шосе, 33А</p>
+        <p>Пн–Сб: 09:00 — 18:00</p>
+      </div>
+      <div class="foot-section">
+        <h5>Соцмережі</h5>
+        <a class="soc-btn" href="https://www.instagram.com/alenstudio_detailing" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          Instagram
+        </a>
+        <a class="soc-btn" href="https://t.me/+380972056022" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          Telegram
+        </a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Alen Studio. Усі права захищено.</span>
+      <span>Студія професійного догляду за автомобілем · Біла Церква</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- lazy image load with fade + graceful fallback ---------- */
+  function loadImg(img){
+    var src = img.getAttribute("data-src");
+    if(!src) return;
+    img.onload = function(){ img.classList.add("loaded"); };
+    img.onerror = function(){ img.style.display="none"; }; /* keep gradient fallback */
+    img.src = src;
+  }
+  var imgs = Array.prototype.slice.call(document.querySelectorAll("img[data-src]"));
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries,o){
+      entries.forEach(function(e){ if(e.isIntersecting){ loadImg(e.target); o.unobserve(e.target); } });
+    }, {rootMargin:"300px"});
+    imgs.forEach(function(i){
+      if(i.getAttribute("fetchpriority")==="high"){ loadImg(i); } else { io.observe(i); }
+    });
+  } else { imgs.forEach(loadImg); }
+
+  /* ---------- header scroll state ---------- */
+  var header = document.getElementById("header");
+  var onScroll = function(){ header.classList.toggle("scrolled", window.scrollY > 12); };
+  onScroll();
+  window.addEventListener("scroll", onScroll, {passive:true});
+
+  /* ---------- mobile menu ---------- */
+  var burger = document.getElementById("burger");
+  var closeMenu = function(){ document.body.classList.remove("menu-open"); burger.setAttribute("aria-expanded","false"); };
+  burger.addEventListener("click", function(){
+    var open = document.body.classList.toggle("menu-open");
+    burger.setAttribute("aria-expanded", open ? "true":"false");
+  });
+  document.querySelectorAll("#mobileMenu a").forEach(function(a){ a.addEventListener("click", closeMenu); });
+  document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeMenu(); });
+
+  /* ---------- hero intro ---------- */
+  window.addEventListener("load", function(){ requestAnimationFrame(function(){ document.querySelector(".hero").classList.add("ready"); }); });
+  document.querySelector(".hero").classList.add("ready"); // safety if load already fired
+
+  /* ---------- hero video: plays through once on first scroll ---------- */
+  (function(){
+    var hero  = document.getElementById("home");
+    var video = document.getElementById("heroVideo");
+    if(!hero || !video) return;
+
+    // hardware video playback needs a pointer-driven viewport; else static poster
+    var canPlay = !reduce
+      && window.matchMedia("(min-width: 760px)").matches
+      && window.matchMedia("(pointer: fine)").matches;
+
+    if(!canPlay){ hero.classList.add("hero--static"); return; }
+
+    video.classList.add("loaded");               // fade the video layer over the poster
+    try{ video.load(); }catch(e){}               // start buffering immediately
+
+    // The first scroll input starts the clip once. For the first 2s the page is
+    // pinned (so the start of the reveal is actually seen); after that scrolling
+    // works normally and the wheel no longer touches playback — the video plays
+    // straight through to its end regardless of where the user scrolls.
+    var HOLD_MS = 2000;
+    var started = false, lockUntil = 0;
+    function start(){
+      if(started) return;
+      started = true;
+      lockUntil = performance.now() + HOLD_MS;
+      hero.classList.add("scrubbed");            // fades the scroll hint out
+      var p = video.play();
+      if(p && p.catch) p.catch(function(){});    // ignore play() rejection
+    }
+    function onInput(e){
+      if(!started){ start(); if(e.cancelable) e.preventDefault(); return; }
+      if(performance.now() < lockUntil && e.cancelable) e.preventDefault();  // hold window
+    }
+
+    window.addEventListener("wheel",     onInput, {passive:false});
+    window.addEventListener("touchmove", onInput, {passive:false});
+    window.addEventListener("keydown",   function(e){
+      if(["ArrowDown","ArrowUp","PageDown","PageUp","Home","End","Spacebar"," "].indexOf(e.key) < 0) return;
+      onInput(e);
+    });
+  })();
+
+  /* ---------- hero: mobile scroll-scrub (phones only, desktop untouched) ---------- */
+  (function(){
+    if(window.matchMedia("(min-width:760px)").matches) return;  // desktop: bail immediately
+    if(reduce) return;
+
+    var TOTAL = 191;   // frame-001.webp … frame-191.webp  (8 s × 24 fps)
+
+    var hero   = document.getElementById("home");
+    var heroBg = document.getElementById("heroImg");
+    if(!hero || !heroBg) return;
+
+    // Create canvas and insert into hero-bg (on top of poster img, below ::after overlay)
+    var canvas = document.createElement("canvas");
+    canvas.className = "hero-canvas-mob";
+    heroBg.appendChild(canvas);
+    var ctx = canvas.getContext("2d");
+
+    // Set intrinsic size for crisp rendering on HiDPI screens
+    var dpr = window.devicePixelRatio || 1;
+    var W   = window.innerWidth;
+    var H   = window.innerHeight;
+    canvas.width  = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.scale(dpr, dpr);
+
+    // Make hero tall enough to scroll through all frames; inner div becomes sticky
+    hero.classList.add("hero--mob-scrub", "scrubbed");
+
+    // --- frame pool ---
+    var imgs    = new Array(TOTAL);
+    var current = -1;
+
+    function pad3(n){ return ("000" + n).slice(-3); }
+
+    function drawCover(img){
+      if(!img || !img.naturalWidth) return;
+      var iw = img.naturalWidth, ih = img.naturalHeight;
+      var scale = Math.max(W / iw, H / ih);
+      var sw = iw * scale, sh = ih * scale;
+      ctx.drawImage(img, (W - sw) / 2, (H - sh) / 2, sw, sh);
+    }
+
+    function drawIdx(idx){
+      if(idx === current) return;           // skip if same frame already showing
+      var img = imgs[idx];
+      if(!img || !img.complete || !img.naturalWidth) return;
+      ctx.clearRect(0, 0, W, H);
+      drawCover(img);
+      current = idx;
+    }
+
+    function onScroll(){
+      var heroTop   = hero.getBoundingClientRect().top + window.pageYOffset;
+      var scrollable = hero.offsetHeight - window.innerHeight;
+      var pct       = Math.max(0, Math.min(1, (window.pageYOffset - heroTop) / scrollable));
+      drawIdx(Math.min(TOTAL - 1, Math.floor(pct * TOTAL)));
+    }
+
+    // Kick off all loads simultaneously; draw frame 0 as soon as it arrives
+    for(var i = 0; i < TOTAL; i++){
+      (function(idx){
+        var img = new Image();
+        img.onload = function(){
+          imgs[idx] = img;
+          if(idx === 0){ drawIdx(0); }
+          else         { onScroll(); }  // repaint if this frame is the one currently needed
+        };
+        img.src = "/frames/frame-" + pad3(idx + 1) + ".webp";
+      })(i);
+    }
+
+    window.addEventListener("scroll", onScroll, {passive:true});
+    onScroll();
+  })();
+
+  /* ---------- mobile: fade hero text layer while scrubbing ---------- */
+  (function(){
+    if(window.matchMedia("(min-width:760px)").matches) return;
+    if(reduce) return;
+    var hero  = document.getElementById("home");
+    var inner = hero && hero.querySelector(".hero-inner");
+    if(!inner) return;
+    // Fade over first 8% of scroll — nearly instant on first scroll tick
+    var FADE_END = 0.08;
+    function onScroll(){
+      var heroTop   = hero.getBoundingClientRect().top + window.pageYOffset;
+      var scrollable = hero.offsetHeight - window.innerHeight;
+      if(scrollable <= 0) return;
+      var pct   = Math.max(0, Math.min(1, (window.pageYOffset - heroTop) / scrollable));
+      var alpha = Math.max(0, 1 - pct / FADE_END);
+      inner.style.opacity        = alpha;
+      inner.style.pointerEvents  = alpha < 0.05 ? "none" : "";
+    }
+    window.addEventListener("scroll", onScroll, {passive:true});
+    onScroll();
+  })();
+
+  /* ---------- reveal on scroll ---------- */
+  var reveals = document.querySelectorAll(".reveal");
+  if(reduce || !("IntersectionObserver" in window)){
+    reveals.forEach(function(r){ r.classList.add("in"); });
+  } else {
+    var ro = new IntersectionObserver(function(entries,o){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); o.unobserve(e.target); } });
+    }, {threshold:.14, rootMargin:"0px 0px -8% 0px"});
+    reveals.forEach(function(r){ ro.observe(r); });
+  }
+
+  /* ---------- service tabs ---------- */
+  var svcData = [
+    {t:"Сидіння",  img:"seat",    d:"Глибоке очищення тканини або шкіри від плям, бруду та запахів. Повертаємо первинний вигляд та захищаємо матеріал.", tm:"1–3 години",              r:"Чистота, свіжість, захист",      m:"Професійна хімія та обладнання"},
+    {t:"Стеля",    img:"roof",    d:"Делікатне очищення стельового покриття без розводів та провисання тканини. Прибираємо плями та сліди тютюну.",       tm:"1–2 години",              r:"Рівномірний чистий тон",         m:"Суха пінна екстракція"},
+    {t:"Пластик",  img:"plastic", d:"Очищення та відновлення пластикових елементів салону. Прибираємо пил, плями та повертаємо матовий відтінок.",         tm:"1–2 години",              r:"Оновлений вигляд панелей",       m:"Мʼякі щітки та захисний кондиціонер"},
+    {t:"Підлога",  img:"floor",   d:"Екстракція килимового покриття та килимків, видалення глибокого бруду, піску та солі з-під сидінь.",                  tm:"2–3 години",              r:"Чисте сухе покриття",            m:"Гаряча екстракція під тиском"},
+    {t:"Багажник", img:"trunk",   d:"Повне очищення відсіку багажника, бічних панелей та органайзера. Усуваємо запахи та сліди вантажу.",                tm:"30 хвилин – 1 година",    r:"Свіжий охайний відсік",          m:"Торнадор та екстрактор"}
+  ];
+  var tabs = document.querySelectorAll(".svc-tab");
+  var content = document.getElementById("svcContent");
+  var baBefore = document.getElementById("baBefore"), baImgAfter = document.getElementById("baImgAfter");
+  var els = {t:document.getElementById("svcTitle"), d:document.getElementById("svcDesc"), tm:document.getElementById("svcTime"), r:document.getElementById("svcResult"), m:document.getElementById("svcMethod")};
+
+  function url(zone, suf){ return "assets/" + zone + "_" + suf + ".webp"; }
+
+  // preload + decode every zone image up front → switching is instant, no lag
+  var cache = {};
+  function prime(src){
+    if(cache[src]) return cache[src];
+    var im = new Image(); im.src = src;
+    cache[src] = (im.decode ? im.decode().catch(function(){}) : Promise.resolve());
+    return cache[src];
+  }
+  function preloadAll(){ svcData.forEach(function(s){ prime(url(s.img,"before")); prime(url(s.img,"after")); }); }
+  if("requestIdleCallback" in window){ requestIdleCallback(preloadAll); }
+  else { window.addEventListener("load", preloadAll); }
+
+  // swap both layers only once BOTH are decoded → they appear together, no half-load
+  function swapImages(s){
+    var bs = url(s.img,"before"), as = url(s.img,"after");
+    Promise.all([prime(bs), prime(as)]).then(function(){
+      baBefore.src = bs;  baBefore.alt = s.t + " до очищення";
+      baImgAfter.src = as; baImgAfter.alt = s.t + " після очищення";
+      setBA(50);                                   // reset comparison to centre
+    });
+  }
+
+  function selectSvc(i){
+    tabs.forEach(function(t,k){ t.setAttribute("aria-selected", k===i ? "true":"false"); });
+    var s = svcData[i];
+    var applyText = function(){
+      els.t.textContent=s.t; els.d.textContent=s.d; els.tm.textContent=s.tm; els.r.textContent=s.r; els.m.textContent=s.m;
+    };
+    swapImages(s);
+    if(reduce){ applyText(); return; }
+    content.classList.add("swap");
+    setTimeout(function(){ applyText(); content.classList.remove("swap"); }, 200);
+  }
+  tabs.forEach(function(t,i){ t.addEventListener("click", function(){ selectSvc(i); }); });
+
+  /* ---------- before / after slider ---------- */
+  var ba = document.getElementById("ba"), baAfter = document.getElementById("baAfter"),
+      baHandle = document.getElementById("baHandle"), baRange = document.getElementById("baRange");
+  function setBA(pct){
+    pct = Math.max(0, Math.min(100, pct));
+    baAfter.style.clipPath = "inset(0 0 0 " + pct + "%)";
+    baHandle.style.left = pct + "%";
+    baRange.value = pct;
+  }
+  var dragging=false;
+  function pctFromX(clientX){ var r=ba.getBoundingClientRect(); return ((clientX-r.left)/r.width)*100; }
+  ba.addEventListener("pointerdown", function(e){ if(e.target===baRange) return; dragging=true; setBA(pctFromX(e.clientX)); });
+  window.addEventListener("pointermove", function(e){ if(dragging) setBA(pctFromX(e.clientX)); });
+  window.addEventListener("pointerup", function(){ dragging=false; });
+  baRange.addEventListener("input", function(){ setBA(parseFloat(baRange.value)); });
+  setBA(50);
+
+  /* ── phone mask ──────────────────────────────────────────────── */
+  (function(){
+    var ph = document.getElementById("phone");
+    if(!ph) return;
+    var PRE = "+380 ";
+    function dig(v){ return v.replace(/\D/g,""); }
+    function fmt(raw){
+      var d = raw.slice(0,9), r = PRE;
+      if(d.length > 0) r += d.slice(0,2);
+      if(d.length > 2) r += " " + d.slice(2,5);
+      if(d.length > 5) r += " " + d.slice(5,9);
+      return r;
+    }
+    function cur(el, pos){ try{ el.setSelectionRange(pos, pos); }catch(e){} }
+    function syncLabel(){
+      var hasDigits = ph.value.length > PRE.length && dig(ph.value.slice(PRE.length)).length > 0;
+      ph.classList.toggle("has-value", ph.value.length > 0 && (hasDigits || document.activeElement === ph));
+    }
+    function process(){
+      var v = ph.value;
+      var raw = v.startsWith(PRE) ? dig(v.slice(PRE.length)) :
+                v.startsWith("+380") ? dig(v.slice(4)) :
+                v.startsWith("0") ? dig(v.slice(1)) : dig(v);
+      ph.value = fmt(raw); cur(ph, ph.value.length); syncLabel();
+    }
+    ph.addEventListener("focus", function(){
+      if(!ph.value){ ph.value = PRE; }
+      else if(ph.value.length < PRE.length){ ph.value = PRE; }
+      syncLabel();
+      setTimeout(function(){ cur(ph, ph.value.length); }, 0);
+    });
+    ph.addEventListener("blur", function(){
+      if(ph.value === PRE || !dig(ph.value.replace(/\D/g,"").replace(/^380/,"")).length){
+        ph.value = "";
+      }
+      syncLabel();
+    });
+    ph.addEventListener("input", process);
+    ph.addEventListener("change", process);
+    ph.addEventListener("keydown", function(e){
+      var s = ph.selectionStart, se = ph.selectionEnd;
+      if(e.key === "Backspace" && s <= PRE.length && se <= PRE.length){ e.preventDefault(); return; }
+      if(e.key === "Delete" && s < PRE.length){ e.preventDefault(); return; }
+      if(e.key.length === 1 && !/\d/.test(e.key) && !e.ctrlKey && !e.metaKey){ e.preventDefault(); }
+    });
+    ph.addEventListener("click", function(){ if(ph.selectionStart < PRE.length) cur(ph, PRE.length); });
+    ph.addEventListener("paste", function(e){
+      e.preventDefault();
+      var p = (e.clipboardData || window.clipboardData).getData("text");
+      var d = dig(p); if(d.startsWith("380")) d = d.slice(3); else if(d.startsWith("0")) d = d.slice(1);
+      ph.value = fmt(d); cur(ph, ph.value.length); syncLabel();
+    });
+    var bf = document.getElementById("bookingForm");
+    if(bf) bf.addEventListener("reset", function(){ setTimeout(function(){ ph.value = ""; ph.classList.remove("has-value"); }, 0); });
+  })();
+
+  /* ── car brand autocomplete ──────────────────────────────────── */
+  (function(){
+    var inp = document.getElementById("car");
+    if(!inp) return;
+    var B = [
+      {n:"Acura",         l:"acura"},
+      {n:"Alfa Romeo",    l:"alfa-romeo"},
+      {n:"Audi",          l:"audi"},
+      {n:"Bentley",       l:"bentley"},
+      {n:"BMW",           l:"bmw"},
+      {n:"BYD",           l:"byd"},
+      {n:"Cadillac",      l:"cadillac"},
+      {n:"Chery",         l:"chery"},
+      {n:"Chevrolet",     l:"chevrolet"},
+      {n:"Chrysler",      l:"chrysler"},
+      {n:"Citroën",       l:"citroen"},
+      {n:"Cupra",         l:"cupra"},
+      {n:"Dacia",         l:"dacia"},
+      {n:"Daewoo",        l:"daewoo"},
+      {n:"Dodge",         l:"dodge"},
+      {n:"Dongfeng",      l:"dongfeng"},
+      {n:"Ferrari",       l:"ferrari"},
+      {n:"Fiat",          l:"fiat"},
+      {n:"Ford",          l:"ford"},
+      {n:"GAC",           l:"gac"},
+      {n:"Geely",         l:"geely"},
+      {n:"Genesis",       l:"genesis"},
+      {n:"Great Wall",    l:"great-wall"},
+      {n:"Haval",         l:"haval"},
+      {n:"Honda",         l:"honda"},
+      {n:"Hyundai",       l:"hyundai"},
+      {n:"Infiniti",      l:"infiniti"},
+      {n:"Isuzu",         l:"isuzu"},
+      {n:"Iveco",         l:"iveco"},
+      {n:"JAC",           l:"jac"},
+      {n:"Jaguar",        l:"jaguar"},
+      {n:"Jeep",          l:"jeep"},
+      {n:"Kia",           l:"kia"},
+      {n:"Lamborghini",   l:"lamborghini"},
+      {n:"Land Rover",    l:"land-rover"},
+      {n:"Lexus",         l:"lexus"},
+      {n:"Lynk & Co",     l:"lynk-co"},
+      {n:"Maserati",      l:"maserati"},
+      {n:"Mazda",         l:"mazda"},
+      {n:"Mercedes-Benz", l:"mercedes-benz"},
+      {n:"MG",            l:"mg"},
+      {n:"MINI",          l:"mini"},
+      {n:"Mitsubishi",    l:"mitsubishi"},
+      {n:"Nissan",        l:"nissan"},
+      {n:"Opel",          l:"opel"},
+      {n:"Peugeot",       l:"peugeot"},
+      {n:"Polestar",      l:"polestar"},
+      {n:"Porsche",       l:"porsche"},
+      {n:"Renault",       l:"renault"},
+      {n:"Rolls-Royce",   l:"rolls-royce"},
+      {n:"SEAT",          l:"seat"},
+      {n:"Smart",         l:"smart"},
+      {n:"SsangYong",     l:"ssangyong"},
+      {n:"Skoda",         l:"skoda"},
+      {n:"Subaru",        l:"subaru"},
+      {n:"Suzuki",        l:"suzuki"},
+      {n:"Tesla",         l:"tesla"},
+      {n:"Toyota",        l:"toyota"},
+      {n:"Volkswagen",    l:"volkswagen"},
+      {n:"Volvo",         l:"volvo"},
+      {n:"Zeekr",         l:"zeekr"}
+    ];
+    var field = inp.closest(".form-field");
+    var dd = document.createElement("div"); dd.className = "brand-dropdown"; field.appendChild(dd);
+    var carLogoBadge = document.getElementById("carLogoBadge");
+    var activeIdx = -1, matches = [];
+    function open(){ dd.classList.add("open"); field.classList.add("dropdown-open"); }
+    function close(){ dd.classList.remove("open"); field.classList.remove("dropdown-open"); activeIdx = -1; }
+    function showBrandLogo(slug){
+      var img = new Image(); img.alt = "";
+      img.onload = function(){ carLogoBadge.innerHTML = ""; carLogoBadge.appendChild(img); carLogoBadge.classList.add("visible"); field.classList.add("brand-picked"); };
+      img.onerror = function(){ carLogoBadge.classList.remove("visible"); field.classList.remove("brand-picked"); };
+      img.src = "/logos/" + slug + ".svg";
+    }
+    function hideBrandLogo(){ carLogoBadge.classList.remove("visible"); carLogoBadge.innerHTML = ""; field.classList.remove("brand-picked"); }
+    function pick(b){ inp.value = b.n; showBrandLogo(b.l); close(); }
+    function makeItem(b){
+      var item = document.createElement("div"); item.className = "brand-option";
+      var img = new Image(); img.className = "brand-option-logo";
+      img.src = "/logos/" + b.l + ".svg"; img.alt = "";
+      img.onerror = function(){ img.style.display="none"; };
+      var nm = document.createElement("span"); nm.className = "brand-option-name"; nm.textContent = b.n;
+      item.append(img, nm);
+      item.addEventListener("mousedown", function(e){ e.preventDefault(); pick(b); });
+      return item;
+    }
+    function render(){
+      dd.innerHTML = ""; activeIdx = -1;
+      if(!matches.length){ close(); return; }
+      matches.forEach(function(b){ dd.appendChild(makeItem(b)); }); open();
+    }
+    function setActive(i){
+      dd.querySelectorAll(".brand-option").forEach(function(el,k){ el.classList.toggle("active", k===i); });
+      var el = dd.querySelectorAll(".brand-option")[i]; if(el) el.scrollIntoView({block:"nearest"});
+      activeIdx = i;
+    }
+    inp.addEventListener("input", function(){
+      var q = inp.value.trim().toLowerCase();
+      if(!q){ hideBrandLogo(); close(); return; }
+      hideBrandLogo();
+      var s = B.filter(b => b.n.toLowerCase().startsWith(q));
+      var c = B.filter(b => !b.n.toLowerCase().startsWith(q) && b.n.toLowerCase().includes(q));
+      matches = [...s, ...c].slice(0,8); render();
+    });
+    inp.addEventListener("blur", function(){ setTimeout(close, 160); });
+    inp.addEventListener("keydown", function(e){
+      if(!dd.classList.contains("open")) return;
+      var len = dd.querySelectorAll(".brand-option").length;
+      if(e.key==="ArrowDown"){ e.preventDefault(); setActive(Math.min(activeIdx+1, len-1)); }
+      else if(e.key==="ArrowUp"){ e.preventDefault(); setActive(Math.max(activeIdx-1, 0)); }
+      else if(e.key==="Enter" && activeIdx>=0){ e.preventDefault(); pick(matches[activeIdx]); }
+      else if(e.key==="Escape"){ close(); }
+    });
+  })();
+
+  /* ---------- calculator: see src/three-configurator.js (3D x-ray model) ---------- */
+
+  /* ---------- stat counters ---------- */
+  var stats = document.querySelectorAll(".stat .num");
+  function runCount(el){
+    var target=parseInt(el.getAttribute("data-count"),10), suf=el.getAttribute("data-suffix")||"";
+    if(reduce){ el.textContent=target.toLocaleString("uk-UA").replace(/,/g," ")+suf; return; }
+    var start=null, dur=1400;
+    function step(ts){ if(!start) start=ts; var p=Math.min((ts-start)/dur,1); var e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(target*e).toLocaleString("uk-UA").replace(/,/g," ")+suf; if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  }
+  if("IntersectionObserver" in window){
+    var so=new IntersectionObserver(function(en,o){ en.forEach(function(e){ if(e.isIntersecting){ runCount(e.target); o.unobserve(e.target); } }); },{threshold:.5});
+    stats.forEach(function(s){ so.observe(s); });
+  } else { stats.forEach(runCount); }
+
+  /* ---------- form ---------- */
+  var form=document.getElementById("bookingForm"), msg=document.getElementById("formMsg"),
+      btn=document.getElementById("submitBtn");
+  var _bookingData = null; // populated by showBookingInfo below
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var nameEl=document.getElementById("name"), phoneEl=document.getElementById("phone"),
+        carEl=document.getElementById("car");
+    msg.className="form-msg";
+    if(!nameEl.value.trim()){ msg.textContent="Будь ласка, вкажіть ваше ім'я."; msg.classList.add("err"); nameEl.focus(); return; }
+    var digits=phoneEl.value.replace(/\D/g,"");
+    if(digits.length<10){ msg.textContent="Вкажіть коректний номер телефону."; msg.classList.add("err"); phoneEl.focus(); return; }
+    btn.disabled=true; btn.style.opacity=".6"; msg.textContent="Надсилаємо…";
+
+    var TG_TOKEN  = "8416929056:AAFlmSwZXnDedH9k26XqrwwBzUaRIyG_LDg";
+    var TG_CHAT   = "8416929056";
+    var now = new Date().toLocaleString("uk-UA", {timeZone:"Europe/Kiev"});
+    var lines = [
+      "📋 *Нова заявка — Alen Studio*",
+      "──────────────────",
+      "👤 Ім'я: " + nameEl.value.trim(),
+      "📞 Телефон: " + phoneEl.value.trim()
+    ];
+    if(carEl.value.trim()) lines.push("🚗 Марка авто: " + carEl.value.trim());
+    if(_bookingData){
+      lines.push("📦 Послуга: " + _bookingData.name);
+      if(_bookingData.chips && _bookingData.chips.length) lines.push("🔧 Включає: " + _bookingData.chips.join(", "));
+      lines.push("💰 Вартість: " + _bookingData.price + " грн");
+    }
+    lines.push("⏰ Час: " + now);
+
+    fetch("https://api.telegram.org/bot" + TG_TOKEN + "/sendMessage", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({chat_id:TG_CHAT, text:lines.join("\n"), parse_mode:"Markdown"})
+    }).then(function(r){ return r.json(); }).then(function(r){
+      btn.disabled=false; btn.style.opacity="1";
+      if(r.ok){
+        msg.textContent="Дякуємо! Ми зв'яжемося з вами найближчим часом."; msg.classList.add("ok");
+        form.reset();
+        var badge=document.getElementById("carLogoBadge");
+        if(badge){ badge.classList.remove("visible"); badge.innerHTML=""; }
+        var carField=document.querySelector(".form-field.brand-picked");
+        if(carField) carField.classList.remove("brand-picked");
+        clearSelection();
+      } else {
+        msg.textContent="Помилка відправки. Будь ласка, зателефонуйте нам."; msg.classList.add("err");
+      }
+    }).catch(function(){
+      btn.disabled=false; btn.style.opacity="1";
+      msg.textContent="Помилка з'єднання. Будь ласка, зателефонуйте нам."; msg.classList.add("err");
+    });
+  });
+
+  /* ── booking selection: reactive state machine ─────────────────── */
+  var bookingSel   = document.getElementById("bookingSel");
+  var currentMode  = null;  // 'package' | 'calc' | null
+  var currentPkgId = null;
+  var suppressCalc = false; // true while programmatically unchecking calc boxes
+
+  var PKGS = {
+    economy:  { name:"Економ",   price:"3 000", services:["Сидіння","Підлога"] },
+    standard: { name:"Стандарт", price:"4 500", services:["Сидіння","Стеля","Пластик","Підлога","Дверні карти"] },
+    premium:  { name:"Преміум",  price:"6 500", services:["Сидіння","Стеля","Пластик","Підлога","Дверні карти","Захист пластику","Захист шкіри"] }
+  };
+
+  function fmtPrice(n){ return n.toLocaleString("uk-UA").replace(/,/g," "); }
+
+  function showBookingInfo(data){
+    _bookingData = data;
+    var chips = data.chips.map(function(c){ return '<span class="bsel-chip">'+c+'</span>'; }).join("");
+    bookingSel.innerHTML =
+      '<div class="bsel-header">'+
+        '<div class="bsel-label">'+data.label+'</div>'+
+        '<button class="bsel-clear" type="button" aria-label="Очистити вибір">'+
+          '<svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">'+
+            '<path d="M1 1l11 11M12 1L1 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'+
+          '</svg>Очистити'+
+        '</button>'+
+      '</div>'+
+      '<div class="bsel-name">'+data.name+'</div>'+
+      '<div class="bsel-chips">'+chips+'</div>'+
+      '<div class="bsel-price"><span class="num">'+data.price+'</span><span class="cur">грн</span></div>';
+    bookingSel.querySelector(".bsel-clear").addEventListener("click", clearSelection);
+    bookingSel.classList.remove("visible");
+    void bookingSel.offsetWidth;
+    bookingSel.classList.add("visible");
+  }
+
+  function clearBookingInfo(){
+    _bookingData = null;
+    bookingSel.classList.remove("visible");
+    bookingSel.innerHTML = "";
+  }
+
+  function clearSelection(){
+    suppressCalc = true;
+    document.querySelectorAll(".calc-in").forEach(function(cb){
+      if(cb.checked){ cb.checked = false; cb.dispatchEvent(new Event("change")); }
+    });
+    suppressCalc = false;
+    document.querySelectorAll("[data-pkg-id]").forEach(function(card){ card.classList.remove("pkg--selected"); });
+    currentMode = null; currentPkgId = null;
+    clearBookingInfo();
+  }
+
+  function updateFromCalc(){
+    var items = [], total = 0;
+    document.querySelectorAll(".calc-in").forEach(function(cb){
+      if(cb.checked){
+        items.push(cb.closest("label").querySelector(".name").textContent);
+        total += parseInt(cb.dataset.price, 10);
+      }
+    });
+    if(!items.length){ currentMode = null; clearBookingInfo(); return; }
+    showBookingInfo({ label:"Локальна хімчистка", name:"Вибрані зони", chips:items, price:fmtPrice(total) });
+  }
+
+  /* calc checkboxes → live update */
+  document.querySelectorAll(".calc-in").forEach(function(cb){
+    cb.addEventListener("change", function(){
+      if(suppressCalc) return;
+      if(currentMode === "package"){
+        document.querySelectorAll("[data-pkg-id]").forEach(function(card){ card.classList.remove("pkg--selected"); });
+        currentPkgId = null;
+      }
+      currentMode = "calc";
+      updateFromCalc();
+    });
+  });
+
+  /* ---------- coverage gauge fill on scroll ---------- */
+  var pkgPanel = document.querySelector(".pkg-panel");
+  if(pkgPanel){
+    if(reduce){ pkgPanel.classList.add("cov-in"); }
+    else if("IntersectionObserver" in window){
+      var covObs = new IntersectionObserver(function(entries, o){
+        entries.forEach(function(en){
+          if(en.isIntersecting){ en.target.classList.add("cov-in"); o.unobserve(en.target); }
+        });
+      }, { threshold:.35 });
+      covObs.observe(pkgPanel);
+    } else { pkgPanel.classList.add("cov-in"); }
+  }
+
+  /* ---------- package accordion + book ---------- */
+  document.querySelectorAll(".pkg-toggle").forEach(function(toggle){
+    toggle.addEventListener("click", function(e){
+      e.stopPropagation();
+      var accord = toggle.nextElementSibling;
+      var open = accord.classList.toggle("open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  });
+
+  // entire card is clickable — delegates to the toggle button
+  document.querySelectorAll(".pkg").forEach(function(card){
+    card.addEventListener("click", function(e){
+      if(e.target.closest(".pkg-toggle") || e.target.closest(".pkg-book")) return;
+      var toggle = card.querySelector(".pkg-toggle");
+      if(toggle) toggle.click();
+    });
+  });
+
+  document.querySelectorAll(".pkg-book").forEach(function(bookBtn){
+    bookBtn.addEventListener("click", function(e){
+      e.stopPropagation();
+      var pkgId = bookBtn.dataset.pkg;
+      var pkg = PKGS[pkgId];
+      if(!pkg) return;
+      suppressCalc = true;
+      document.querySelectorAll(".calc-in").forEach(function(cb){
+        if(cb.checked){ cb.checked = false; cb.dispatchEvent(new Event("change")); }
+      });
+      suppressCalc = false;
+      document.querySelectorAll("[data-pkg-id]").forEach(function(card){ card.classList.remove("pkg--selected"); });
+      bookBtn.closest("[data-pkg-id]").classList.add("pkg--selected");
+      currentMode = "package"; currentPkgId = pkgId;
+      showBookingInfo({ label:"Обраний пакет", name:pkg.name, chips:pkg.services, price:pkg.price });
+      document.getElementById("booking").scrollIntoView({ behavior:"smooth", block:"start" });
+    });
+  });
+
+  /* ---------- calculator → booking: scroll only (info already live) ---------- */
+  var calcBookBtn = document.getElementById("calcBookBtn");
+  if(calcBookBtn){
+    calcBookBtn.addEventListener("click", function(){
+      var anyChecked = [].some.call(document.querySelectorAll(".calc-in"), function(cb){ return cb.checked; });
+      if(!anyChecked) return;
+      document.getElementById("booking").scrollIntoView({ behavior:"smooth", block:"start" });
+    });
+  }
+})();
+</script>
+
+
+<!-- 3D x-ray configurator that drives the price calculator (bundled by Vite) -->
+<script type="module" src="/src/three-configurator.js"></script>
+
+<!-- Telegram visitor notification -->
+<script>
+(function(){
+  var TOKEN   = "8416929056:AAFlmSwZXnDedH9k26XqrwwBzUaRIyG_LDg";
+  var CHAT_ID = "8416929056";
+  var LS_KEY  = "tg_last_notify";
+  var COOLDOWN = 10 * 60 * 1000; // 10 минут
+
+  try {
+    var last = parseInt(localStorage.getItem(LS_KEY) || "0", 10);
+    if (Date.now() - last < COOLDOWN) return;
+    localStorage.setItem(LS_KEY, String(Date.now()));
+  } catch(e) { /* localStorage заблокован — отправляем без проверки */ }
+
+  var now     = new Date().toLocaleString("uk-UA", { timeZone: "Europe/Kiev" });
+  var page    = location.href;
+  var ref     = document.referrer ? "🔗 Реферер: " + document.referrer : "🔗 Прямой заход";
+  var device  = /Mobi|Android/i.test(navigator.userAgent) ? "📱 Телефон" : "🖥 Компьютер";
+
+  var text = "🔔 Новый посетитель на сайте!\n"
+    + "⏰ Время: " + now + "\n"
+    + "📄 Страница: " + page + "\n"
+    + ref + "\n"
+    + "💻 Устройство: " + device;
+
+  fetch("https://api.telegram.org/bot" + TOKEN + "/sendMessage", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+# Render Blueprint — static site.
+# Render's static hosting is CDN-backed and supports HTTP Range requests out of
+# the box (so the hero <video> scrubs correctly without a custom server).
+services:
+  - type: web
+    name: alen-studio
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: true
+    headers:
+      # Fingerprinted build output — safe to cache forever.
+      - path: /_assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      # Media keeps stable filenames; cache a day, revalidate after.
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=86400, must-revalidate
+      # Vendored DRACO decoder (version-pinned, stable).
+      - path: /draco/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
