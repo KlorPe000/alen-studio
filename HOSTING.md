@@ -51,7 +51,7 @@ The repo contains [`render.yaml`](render.yaml) for a **Web Service** (Node), not
 3. Connect the repository. Render reads `render.yaml` and proposes a web service
    named **alen-studio** with:
    - Runtime: **Node**
-   - Build command: `npm ci && npm run build`
+   - Build command: `npm ci --include=dev && npm run build`
    - Start command: `node server.js`
    - Environment variables: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` (you enter values
      during setup — they are marked `sync: false` in the blueprint)
@@ -67,7 +67,7 @@ The repo contains [`render.yaml`](render.yaml) for a **Web Service** (Node), not
    | Field | Value |
    |-------|-------|
    | **Runtime** | Node |
-   | **Build Command** | `npm ci && npm run build` |
+   | **Build Command** | `npm ci --include=dev && npm run build` |
    | **Start Command** | `node server.js` |
 
 4. Open **Environment** and add:
@@ -133,7 +133,7 @@ you add a separate backend or serverless functions.
 
 | Host | Build | Run / notes |
 |------|-------|-------------|
-| **Render Web Service** | `npm ci && npm run build` | `node server.js` — recommended; see above |
+| **Render Web Service** | `npm ci --include=dev && npm run build` | `node server.js` — recommended; see above |
 | **Railway / Fly.io / VPS** | `npm run build` | `node server.js`; set `PORT` and Telegram env vars |
 | **Netlify** | `npm run build` | Needs Netlify Functions reimplementing `/api/*`, or deploy Express elsewhere |
 | **Vercel** | `npm run build` | Needs Vercel Serverless Functions for `/api/*`, or deploy Express elsewhere |
@@ -144,7 +144,7 @@ Run Node behind a reverse proxy; Nginx serves Range requests for video if config
 Minimal setup:
 
 ```bash
-npm ci && npm run build
+npm ci --include=dev && npm run build
 TELEGRAM_BOT_TOKEN=... TELEGRAM_CHAT_ID=... PORT=3000 node server.js
 ```
 
@@ -165,6 +165,10 @@ location / {
 
 ## 5. Troubleshooting
 
+- **Build fails with `vite: not found`** → Render sets `NODE_ENV=production`, so `npm ci`
+  skips devDependencies. Use build command `npm ci --include=dev && npm run build`
+  (already set in `render.yaml`; update manually in the dashboard if the service was
+  created without the blueprint).
 - **Form shows "Помилка відправки"** → check Render **Logs** for the web service.
   Usually `TELEGRAM_BOT_TOKEN` or `TELEGRAM_CHAT_ID` is missing or invalid. Confirm
   both env vars in **Environment** and redeploy.

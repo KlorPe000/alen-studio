@@ -19,6 +19,29 @@ function escapeMarkdown(text) {
   return String(text).replace(/([_*`[\]])/g, "\\$1");
 }
 
+function parseDeviceLabel(userAgent) {
+  if (!userAgent || typeof userAgent !== "string") return null;
+  const ua = userAgent;
+  if (/iPhone/i.test(ua)) return "📱 Телефон — iPhone";
+  if (/iPad/i.test(ua))   return "📱 Планшет — iPad";
+  // Android: try to extract model name between OS version and closing paren
+  const m = ua.match(/Android\s[\d.]+;\s*([^)]+)/);
+  if (m) {
+    let model = m[1].trim().replace(/\s+Build\/\S+/, "").trim();
+    // Reduced UA sends single letter "K" — not useful
+    if (model && model.length > 1) {
+      if (/^SM-/i.test(model)) return "📱 Телефон — Samsung (" + model + ")";
+      return "📱 Телефон — " + model;
+    }
+    return "📱 Телефон — Android";
+  }
+  if (/Mobile|Android/i.test(ua)) return "📱 Телефон";
+  if (/Macintosh|Mac OS X/i.test(ua)) return "🖥 Комп'ютер (Mac)";
+  if (/Windows/i.test(ua))            return "🖥 Комп'ютер (Windows)";
+  if (/Linux/i.test(ua))              return "🖥 Комп'ютер (Linux)";
+  return null;
+}
+
 function clientIp(req) {
   return (
     req.headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
@@ -71,25 +94,19 @@ function formatBookingMessage({ name, phone, car, booking }) {
   return lines.join("\n");
 }
 
-function formatVisitorMessage({ page, referrer, device }) {
+function formatVisitorMessage({ page, referrer, device, userAgent }) {
   const now = new Date().toLocaleString("uk-UA", { timeZone: "Europe/Kiev" });
-  const refLine = referrer
-    ? "🔗 Реферер: " + referrer
-    : "🔗 Прямой заход";
-  const deviceLabel = device === "mobile" ? "📱 Телефон" : "🖥 Компьютер";
+  const refLine = referrer ? "🔗 Реферер: " + referrer : "🔗 Прямий захід";
+  const deviceLabel =
+    parseDeviceLabel(userAgent) ||
+    (device === "mobile" ? "📱 Телефон" : "🖥 Комп'ютер");
 
   return (
-    "🔔 Новый посетитель на сайте!\n" +
-    "⏰ Время: " +
-    now +
-    "\n" +
-    "📄 Страница: " +
-    page +
-    "\n" +
-    refLine +
-    "\n" +
-    "💻 Устройство: " +
-    deviceLabel
+    "🔔 Новий відвідувач на сайті!\n" +
+    "⏰ Час: " + now + "\n" +
+    "📄 Сторінка: " + page + "\n" +
+    refLine + "\n" +
+    "💻 Пристрій: " + deviceLabel
   );
 }
 
@@ -151,7 +168,7 @@ app.post("/api/visitor", async (req, res) => {
       return res.json({ ok: true, skipped: true });
     }
 
-    const { page, referrer, device } = req.body || {};
+    const { page, referrer, device, userAgent } = req.body || {};
     if (!page || typeof page !== "string") {
       return res.status(400).json({ ok: false, error: "page_required" });
     }
@@ -166,6 +183,7 @@ app.post("/api/visitor", async (req, res) => {
       page,
       referrer: referrer || undefined,
       device,
+      userAgent: typeof userAgent === "string" ? userAgent.slice(0, 500) : undefined,
     });
 
     await sendTelegram(text);

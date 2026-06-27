@@ -855,6 +855,55 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
 }
 .pkg--selected::before{ opacity:1 !important; }
 .pkg--selected .pkg-lvl{ color:var(--accent); }
+
+/* ============================================================
+   SUCCESS MODAL
+   ============================================================ */
+.booking-ok-overlay{
+  position:fixed; inset:0; z-index:200;
+  background:rgba(12,12,14,.85);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  display:flex; align-items:center; justify-content:center; padding:1.5rem;
+  opacity:0; pointer-events:none;
+  transition:opacity .38s var(--ease);
+}
+.booking-ok-overlay.open{ opacity:1; pointer-events:auto; }
+.booking-ok{
+  background:var(--bg-2); border:1px solid var(--line-2);
+  border-radius:var(--radius);
+  padding:clamp(32px,5vw,56px) clamp(28px,4vw,48px);
+  max-width:480px; width:100%; text-align:center;
+  transform:translateY(28px) scale(.97);
+  transition:transform .44s var(--ease-out), opacity .44s var(--ease);
+  opacity:0;
+}
+.booking-ok-overlay.open .booking-ok{ transform:none; opacity:1; }
+.booking-ok-icon{
+  width:68px; height:68px; border-radius:50%;
+  background:rgba(212,240,0,.12); border:1.5px solid rgba(212,240,0,.38);
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 1.5rem; color:var(--accent);
+}
+.booking-ok-title{
+  font-family:var(--f-display); text-transform:uppercase;
+  font-size:clamp(1.6rem,4vw,2.2rem); font-weight:700; letter-spacing:.04em;
+  color:var(--text); line-height:1; margin-bottom:.9rem;
+}
+.booking-ok-sub{
+  color:var(--text-2); font-size:.96rem; line-height:1.65;
+  max-width:34ch; margin:0 auto 1.8rem;
+}
+.booking-ok-note{
+  display:flex; align-items:flex-start; gap:.85rem;
+  background:rgba(212,240,0,.06); border:1px solid rgba(212,240,0,.18);
+  border-radius:var(--radius-sm); padding:1rem 1.2rem;
+  text-align:left; margin-bottom:1.8rem;
+}
+.booking-ok-note-icon{ color:var(--accent); flex:none; margin-top:1px; }
+.booking-ok-note-text{ font-size:.86rem; color:var(--text-2); line-height:1.55; }
+.booking-ok-note-text strong{ display:block; color:var(--text); font-weight:600; margin-bottom:.25rem; font-size:.9rem; }
+.booking-ok-note-text a{ color:var(--accent); display:block; margin-top:.5rem; font-weight:600; }
+.booking-ok-close{ width:100%; justify-content:center; }
 </style>
 </head>
 
@@ -1253,6 +1302,33 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
   </div>
 </footer>
 
+<!-- SUCCESS MODAL -->
+<div class="booking-ok-overlay" id="bookingOkOverlay" role="dialog" aria-modal="true" aria-labelledby="bookingOkTitle">
+  <div class="booking-ok">
+    <div class="booking-ok-icon">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 12l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="booking-ok-title" id="bookingOkTitle">Заявку відправлено!</div>
+    <p class="booking-ok-sub">Дякуємо за звернення до Alen Studio! Ми отримали вашу заявку і найближчим часом зв'яжемося з вами.</p>
+    <div class="booking-ok-note">
+      <svg class="booking-ok-note-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C9.6 21 3 14.4 3 6c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>
+      <div class="booking-ok-note-text">
+        <strong>Для швидшого підтвердження</strong>
+        Будь ласка, зателефонуйте нам самостійно — так ми зможемо оперативно узгодити час та деталі вашого замовлення.
+        <a href="tel:+380972056022">+380 97 205 6022</a>
+      </div>
+    </div>
+    <button type="button" class="btn btn-accent booking-ok-close" id="bookingOkClose">
+      Зрозуміло
+      <svg class="arrow" width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
 <script>
 (function(){
   "use strict";
@@ -1397,20 +1473,35 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
       drawIdx(Math.min(TOTAL - 1, Math.floor(pct * TOTAL)));
     }
 
-    // Kick off all loads simultaneously; draw frame 0 as soon as it arrives
-    for(var i = 0; i < TOTAL; i++){
-      (function(idx){
-        var img = new Image();
-        img.onload = function(){
-          imgs[idx] = img;
-          if(idx === 0){ drawIdx(0); }
-          else         { onScroll(); }  // repaint if this frame is the one currently needed
-        };
-        img.src = "/frames/frame-" + pad3(idx + 1) + ".webp";
-      })(i);
+    // Progressive frame loading: prioritise first 30 frames, then stagger the rest
+    // to avoid 191 simultaneous network+decode ops on mobile
+    var loaded = new Array(TOTAL).fill(false);
+    function loadFrame(idx){
+      if(loaded[idx]) return;
+      loaded[idx] = true;
+      var img = new Image();
+      img.onload = function(){
+        imgs[idx] = img;
+        if(idx === 0){ drawIdx(0); }
+        else         { onScroll(); }
+      };
+      img.src = "/frames/frame-" + pad3(idx + 1) + ".webp";
     }
+    function loadBatch(start, end){
+      for(var j = start; j < Math.min(end, TOTAL); j++) loadFrame(j);
+    }
+    loadBatch(0, 30);
+    setTimeout(function(){ loadBatch(30, 80);  }, 700);
+    setTimeout(function(){ loadBatch(80, 140); }, 1600);
+    setTimeout(function(){ loadBatch(140, 191);}, 2800);
 
-    window.addEventListener("scroll", onScroll, {passive:true});
+    // RAF-throttled scroll: avoids redundant canvas draws between frames
+    var rafScheduled = false;
+    window.addEventListener("scroll", function(){
+      if(rafScheduled) return;
+      rafScheduled = true;
+      requestAnimationFrame(function(){ rafScheduled = false; onScroll(); });
+    }, {passive:true});
     onScroll();
   })();
 
@@ -1432,7 +1523,12 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
       inner.style.opacity        = alpha;
       inner.style.pointerEvents  = alpha < 0.05 ? "none" : "";
     }
-    window.addEventListener("scroll", onScroll, {passive:true});
+    var fadeTick = false;
+    window.addEventListener("scroll", function(){
+      if(fadeTick) return;
+      fadeTick = true;
+      requestAnimationFrame(function(){ fadeTick = false; onScroll(); });
+    }, {passive:true});
     onScroll();
   })();
 
@@ -1707,6 +1803,26 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
     stats.forEach(function(s){ so.observe(s); });
   } else { stats.forEach(runCount); }
 
+  /* ---------- success modal ---------- */
+  var bookingOkOverlay = document.getElementById("bookingOkOverlay");
+  var bookingOkClose   = document.getElementById("bookingOkClose");
+  function openBookingModal(){
+    bookingOkOverlay.classList.add("open");
+    document.body.style.overflow = "hidden";
+    setTimeout(function(){ bookingOkClose.focus(); }, 60);
+  }
+  function closeBookingModal(){
+    bookingOkOverlay.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  if(bookingOkClose) bookingOkClose.addEventListener("click", closeBookingModal);
+  if(bookingOkOverlay) bookingOkOverlay.addEventListener("click", function(e){
+    if(e.target === bookingOkOverlay) closeBookingModal();
+  });
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape" && bookingOkOverlay && bookingOkOverlay.classList.contains("open")) closeBookingModal();
+  });
+
   /* ---------- form ---------- */
   var form=document.getElementById("bookingForm"), msg=document.getElementById("formMsg"),
       btn=document.getElementById("submitBtn");
@@ -1720,6 +1836,7 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
     if(!nameEl.value.trim()){ msg.textContent="Будь ласка, вкажіть ваше ім'я."; msg.classList.add("err"); nameEl.focus(); return; }
     var digits=phoneEl.value.replace(/\D/g,"");
     if(digits.length<10){ msg.textContent="Вкажіть коректний номер телефону."; msg.classList.add("err"); phoneEl.focus(); return; }
+    if(!_bookingData){ msg.textContent="Оберіть послугу з прайсу або калькулятора перед відправкою заявки."; msg.classList.add("err"); document.getElementById("packages").scrollIntoView({behavior:"smooth",block:"start"}); return; }
     btn.disabled=true; btn.style.opacity=".6"; msg.textContent="Надсилаємо…";
 
     var payload = {
@@ -1742,13 +1859,14 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
     }).then(function(r){ return r.json(); }).then(function(r){
       btn.disabled=false; btn.style.opacity="1";
       if(r.ok){
-        msg.textContent="Дякуємо! Ми зв'яжемося з вами найближчим часом."; msg.classList.add("ok");
+        msg.className="form-msg";
         form.reset();
         var badge=document.getElementById("carLogoBadge");
         if(badge){ badge.classList.remove("visible"); badge.innerHTML=""; }
         var carField=document.querySelector(".form-field.brand-picked");
         if(carField) carField.classList.remove("brand-picked");
         clearSelection();
+        openBookingModal();
       } else {
         msg.textContent="Помилка відправки. Будь ласка, зателефонуйте нам."; msg.classList.add("err");
       }
@@ -1921,7 +2039,8 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
     body: JSON.stringify({
       page: location.href,
       referrer: document.referrer || null,
-      device: /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop"
+      device: /Mobi|Android/i.test(navigator.userAgent) ? "mobile" : "desktop",
+      userAgent: navigator.userAgent
     })
   }).catch(function(){});
 })();
