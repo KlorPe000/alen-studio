@@ -252,7 +252,7 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
 }
 
 .hero-inner{ position:relative; z-index:2; max-width:none; min-height:100svh; display:flex; flex-direction:column;
-  padding-top:clamp(96px,12vh,140px); padding-bottom:clamp(28px,4vh,44px); padding-inline:var(--pad-edge); }
+  padding-top:clamp(108px,14vh,140px); padding-bottom:clamp(28px,4vh,44px); padding-inline:var(--pad-edge); }
 .hero h1{ font-size:clamp(3.2rem, 10.8vw, 10rem); margin-bottom:auto; transform:scaleX(.82); transform-origin:left top; letter-spacing:-.02em; }
 .hero h1 .ln{ display:block; overflow:hidden; }
 .hero h1 .ln span{ display:block; transform:translateY(105%); }
@@ -641,7 +641,7 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
   :root{ --maxw:100%; }
   .nav{ height:64px; }
   .nav-apply{ display:none; }
-  .hero-inner{ padding-top:96px; }
+  .hero-inner{ padding-top:116px; }
   .mobile-menu{ inset:64px 0 0 0; }
   .calc-cols{ grid-template-columns:1fr; }
   .foot-main{ grid-template-columns:1fr; }
@@ -727,6 +727,42 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
   .pkg.feature .price .num{ color:var(--accent); }
   .pkg.feature .pkg-toggle{ border-top-color:rgba(212,240,0,.16) !important; }
 
+  /* ── hero bottom: refined mobile layout ── */
+  .hero-meta{ display:none; }   /* city + description already in footer */
+  .hero-sub{ margin-bottom:1.1rem; }
+  .hero-bl{ padding-bottom:1.6rem; }
+  .hero-bottom{ gap:0 !important; }
+  /* push h1 to bottom of hero so it doesn't overlap the background logo watermark */
+  .hero h1{ margin-top:auto; margin-bottom:1.2rem; }
+  /* enough clearance above the fixed scroll arrow */
+  .hero--mob-scrub .hero-inner{ padding-bottom:116px; }
+
+  /* ── mobile scroll-down arrow (fixed = always at viewport bottom, fades on scroll) ── */
+  .mob-scroll-arrow{
+    position:fixed; left:50%; bottom:clamp(20px,3.5vh,36px);
+    transform:translateX(-50%); z-index:50;
+    display:flex; flex-direction:column; align-items:center; gap:7px;
+    opacity:1; transition:opacity .55s ease;
+    pointer-events:none;
+  }
+  .mob-scroll-arrow.gone{ opacity:0; }
+  .msa-ring{
+    width:46px; height:46px; border-radius:50%;
+    border:1.5px solid rgba(212,240,0,.45);
+    background:rgba(212,240,0,.08);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--accent);
+    animation:msaBounce 2s cubic-bezier(.22,.61,.36,1) infinite;
+  }
+  @keyframes msaBounce{
+    0%,100%{ transform:translateY(0); box-shadow:0 0 10px rgba(212,240,0,.15); }
+    55%{ transform:translateY(6px); box-shadow:0 0 22px rgba(212,240,0,.4), 0 0 0 9px rgba(212,240,0,.07); }
+  }
+  .msa-label{
+    font-size:.5rem; letter-spacing:.3em; text-transform:uppercase;
+    color:rgba(255,255,255,.4);
+  }
+
   /* ── 3D calculator stage: fit within screen, no bleed ── */
   .calc-stage{
     margin-inline:0 !important;
@@ -738,6 +774,8 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
 }
 
 .nocursor{ cursor:default; }
+.mob-scroll-arrow{ display:none; }
+@media (max-width:759px){ .mob-scroll-arrow{ display:flex; } }
 
 /* ── car brand autocomplete ── */
 .form-field.dropdown-open input{ border-radius:var(--radius-sm) var(--radius-sm) 0 0; }
@@ -958,6 +996,16 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
 
     <span class="hero-scrollhint" id="heroHint">Гортайте — оживляємо кадр</span>
 
+    <!-- mobile-only scroll cue -->
+    <div class="mob-scroll-arrow" id="mobScrollArrow" aria-hidden="true">
+      <div class="msa-ring">
+        <svg width="16" height="10" viewBox="0 0 16 10" fill="none">
+          <path d="M1 1.5l7 7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="msa-label">Гортай</span>
+    </div>
+
     <!-- right-edge socials (desktop) -->
     <div class="hero-social" aria-label="Соцмережі Alen Studio">
       <a href="https://www.instagram.com/alenstudio_detailing" aria-label="Instagram" target="_blank" rel="noopener">
@@ -992,9 +1040,9 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
       <div class="hero-bottom">
         <div class="hero-bl">
           <p class="hero-sub">Повертаємо вашому авто<br>відчуття нового салону.</p>
-          <a href="#calc" class="hero-cta">
-            <span>Розрахувати вартість</span>
-            <svg width="22" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true"><path d="M0 5h20M16 1l5 4-5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <a href="#booking" class="link-cta">
+            Записатися на хімчистку
+            <svg width="18" height="10" viewBox="0 0 18 10" fill="none" aria-hidden="true"><path d="M0 5h16M11 1l5 4-5 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
         <div class="hero-meta">
@@ -1784,6 +1832,15 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
       else if(e.key==="Enter" && activeIdx>=0){ e.preventDefault(); pick(matches[activeIdx]); }
       else if(e.key==="Escape"){ close(); }
     });
+  })();
+
+  /* ---------- mobile scroll arrow: fade on first scroll ---------- */
+  (function(){
+    var arrow = document.getElementById("mobScrollArrow");
+    if(!arrow) return;
+    window.addEventListener("scroll", function(){
+      arrow.classList.add("gone");
+    }, {passive:true, once:true});
   })();
 
   /* ---------- calculator: see src/three-configurator.js (3D x-ray model) ---------- */
