@@ -378,7 +378,8 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
 .svc-tab[aria-selected="true"] .ix{ opacity:1; color:var(--accent); }
 
 /* before/after */
-.ba{ position:relative; border-radius:var(--radius); overflow:hidden; aspect-ratio:1/1; background:#1a1a1e; touch-action:none; user-select:none; }
+.ba{ position:relative; border-radius:var(--radius); overflow:hidden; aspect-ratio:1/1; background:#1a1a1e; touch-action:none; user-select:none; transition:opacity .22s var(--ease); }
+.ba.ba--loading{ opacity:0; pointer-events:none; transition:none; }
 .ba .layer{ position:absolute; inset:0; }
 .ba .layer img{ width:100%; height:100%; object-fit:cover; display:block;
   pointer-events:none; user-select:none; -webkit-user-drag:none; -webkit-touch-callout:none; }
@@ -1073,7 +1074,7 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
       </div>
 
       <!-- before/after -->
-      <div class="ba reveal" data-d="1" id="ba" aria-label="Порівняння до та після очищення">
+      <div class="ba reveal ba--loading" data-d="1" id="ba" aria-label="Порівняння до та після очищення">
         <span class="lbl l">До</span>
         <span class="lbl r">Після</span>
         <div class="layer before">
@@ -1623,14 +1624,22 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
   if("requestIdleCallback" in window){ requestIdleCallback(preloadAll); }
   else { window.addEventListener("load", preloadAll); }
 
-  // swap both layers only once BOTH are decoded → they appear together, no half-load
+  // swap images only once BOTH DOM elements have loaded → they appear together, no half-load
   function swapImages(s){
     var bs = url(s.img,"before"), as = url(s.img,"after");
-    Promise.all([prime(bs), prime(as)]).then(function(){
-      baBefore.src = bs;  baBefore.alt = s.t + " до очищення";
-      baImgAfter.src = as; baImgAfter.alt = s.t + " після очищення";
-      setBA(50);                                   // reset comparison to centre
-    });
+    ba.classList.add("ba--loading");
+    var pending = 2;
+    function onLoaded(){ if(--pending===0){ setBA(50); ba.classList.remove("ba--loading"); } }
+    function applyImg(el, src, alt){
+      el.alt = alt;
+      el.onload = el.onerror = null;
+      var absUrl = new URL(src, document.baseURI).href;
+      if(el.src===absUrl && el.complete && el.naturalWidth){ onLoaded(); return; }
+      el.onload = el.onerror = function(){ this.onload=this.onerror=null; onLoaded(); };
+      el.src = src;
+    }
+    applyImg(baBefore, bs, s.t + " до очищення");
+    applyImg(baImgAfter, as, s.t + " після очищення");
   }
 
   function selectSvc(i){
@@ -1662,6 +1671,19 @@ body.menu-open .mobile-menu{ opacity:1; transform:none; pointer-events:auto; }
   window.addEventListener("pointerup", function(){ dragging=false; });
   baRange.addEventListener("input", function(){ setBA(parseFloat(baRange.value)); });
   setBA(50);
+
+  // Reveal on initial load only once both starting images are ready
+  (function(){
+    var p = 2;
+    function initDone(){ if(--p===0) ba.classList.remove("ba--loading"); }
+    [baBefore, baImgAfter].forEach(function(img){
+      if(img.complete && img.naturalWidth){ initDone(); }
+      else{
+        img.addEventListener("load",  initDone, {once:true});
+        img.addEventListener("error", initDone, {once:true});
+      }
+    });
+  })();
 
   /* ── phone mask ──────────────────────────────────────────────── */
   (function(){
